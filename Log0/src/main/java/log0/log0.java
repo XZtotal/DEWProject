@@ -1,10 +1,11 @@
 package log0;
 
 import java.io.IOException;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
+import java.time.LocalDateTime;
+
+import javax.servlet.*;
+import javax.servlet.http.*;
 
 /**
  * Servlet implementation class log0
@@ -16,6 +17,7 @@ public class log0 extends HttpServlet {
      * Default constructor. 
      */
     public log0() {
+    	super();
         // TODO Auto-generated constructor stub
     }
 
@@ -23,8 +25,19 @@ public class log0 extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		response.setContentType("text/html"); /**la respuesta tendrá formato HTML*/
+		
+		PrintWriter out = response.getWriter();
+		
+		out.println("Nombre:"+getServletName()+"\n"+
+					"Datos del formulario" + request.getQueryString() + "\n"+
+					"Nombre del usuario:"+ request.getParameter("usuario") + "\n"+
+					"IP del usuario"+request.getRemoteAddr()+"\n"+
+					"Más información del usuario"+request.getHeader("User-Agent")+"\n"+
+					"Fecha actual:" +LocalDateTime.now().toString()+"\n"+
+					"URI del servlet:" +request.getRequestURI()+"\n"+
+					"Método invocado:" +request.getMethod());
+		
 	}
 
 	/**
