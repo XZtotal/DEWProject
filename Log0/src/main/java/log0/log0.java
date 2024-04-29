@@ -29,14 +29,20 @@ public class log0 extends HttpServlet {
 		
 		PrintWriter out = response.getWriter();
 		
-		out.println("Nombre:"+getServletName()+"\n"+
-					"Datos del formulario" + request.getQueryString() + "\n"+
-					"Nombre del usuario:"+ request.getParameter("usuario") + "\n"+
-					"IP del usuario"+request.getRemoteAddr()+"\n"+
-					"Más información del usuario"+request.getHeader("User-Agent")+"\n"+
-					"Fecha actual:" +LocalDateTime.now().toString()+"\n"+
-					"URI del servlet:" +request.getRequestURI()+"\n"+
-					"Método invocado:" +request.getMethod());
+		String preTituloHTML5 = "<!DOCTYPE html>\n<html>\n<head>\n"
+				+ "<meta http-equiv=\"Content-type\" content=\"text/html; charset=utf-8\"/>";
+		
+		out.println(preTituloHTML5+"<title>Log0</title></head><body>");
+		
+		out.println("<p>Nombre: "+getServletName()+"</p>");
+		out.println("<p>Nombre del usuario:  "+ request.getParameter("usuario")+"</p>");
+		out.println("<p>Contraseña del usuario:  " + request.getParameter("contrasena")+"</p>");
+		out.println("<p>IP del usuario:  "+request.getRemoteAddr()+"</p>");
+		out.println("<p>Más información del usuario:  "+request.getHeader("User-Agent")+"</p>");
+		out.println("<p>Fecha actual:  " +LocalDateTime.now().toString()+"</p>");
+		out.println("<p>URI del servlet:  " +request.getRequestURI()+"</p>");
+		out.println("<p>Método invocado:  " +request.getMethod()+"</p>");
+					
 		
 	}
 
