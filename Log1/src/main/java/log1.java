@@ -51,6 +51,7 @@ public class log1 extends HttpServlet {
 		out.println("<p>Método invocado:  " +request.getMethod()+"</p>");
 		boolean saved = escribirLog(request.getParameter("usuario"),request.getRemoteAddr(),"log0",request.getMethod());				
 		out.println("<p>Log saved:  " + (saved ? "Si" : "No")+"</p>");
+		out.println("<img src=\"https://th.bing.com/th/id/R.67f45e761519fd772264f8186eea8da9?rik=j1irfg6WT2MQTA&amp;riu=http%3a%2f%2flh5.ggpht.com%2f-AMQf7on8nuY%2fUbtRxOLeRyI%2fAAAAAAAAACs%2fnKmm66KQdJE%2fs9000%2fgatitos-bebe-3.jpg&amp;ehk=n4TNCpyMqKUwMjPGhRtQLRzTCMmV41R8Qx%2beL2hLA%2bE%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0\" alt=\"Gatitos bebés\" width=\"300\">");
 		
 		
 		
@@ -63,7 +64,8 @@ public class log1 extends HttpServlet {
 		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
-	//2020-06-09T19:38:14.278 prof1 158.11.11.11 acceso GET
+	
+	//Ej. formato log:    2020-06-09T19:38:14.278 prof1 158.11.11.11 acceso GET
 
 	public static boolean escribirLog(String user, String ip, String sl, String method) {
 		// Intentamos abrir el archivo y escribir en él

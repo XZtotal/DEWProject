@@ -42,8 +42,8 @@ public class log0 extends HttpServlet {
 		out.println("<p>Fecha actual:  " +LocalDateTime.now().toString()+"</p>");
 		out.println("<p>URI del servlet:  " +request.getRequestURI()+"</p>");
 		out.println("<p>Método invocado:  " +request.getMethod()+"</p>");
-					
-		
+		out.println("<img src=\"https://th.bing.com/th/id/R.67f45e761519fd772264f8186eea8da9?rik=j1irfg6WT2MQTA&amp;riu=http%3a%2f%2flh5.ggpht.com%2f-AMQf7on8nuY%2fUbtRxOLeRyI%2fAAAAAAAAACs%2fnKmm66KQdJE%2fs9000%2fgatitos-bebe-3.jpg&amp;ehk=n4TNCpyMqKUwMjPGhRtQLRzTCMmV41R8Qx%2beL2hLA%2bE%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0\" alt=\"Gatitos bebés\" width=\"300\">");
+				
 	}
 
 	/**
