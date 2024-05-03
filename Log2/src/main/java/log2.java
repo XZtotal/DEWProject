@@ -23,6 +23,7 @@ public class log2 extends HttpServlet {
      * Default constructor. 
      */
     public log2() {
+    	super();
         // TODO Auto-generated constructor stub
     	
     }
