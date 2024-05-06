@@ -16,9 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 public class log2 extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
-	// Ruta del archivo en Linux
-    static String rutaArchivo = "/home/user/Escritorio/testlog0.txt";
-
+	//Ruta del archivo en web.xml
+	ServletContext context = getServletContext();
+	String rutaArchivo =  context.getInitParameter("logFilePath");
     /**
      * Default constructor. 
      */
@@ -53,8 +53,7 @@ public class log2 extends HttpServlet {
 		boolean saved = escribirLog(request.getParameter("usuario"),request.getRemoteAddr(),"log0",request.getMethod());				
 		out.println("<p>Log saved:  " + (saved ? "Si" : "No")+"</p>");
 		out.println("<img src=\"https://th.bing.com/th/id/R.67f45e761519fd772264f8186eea8da9?rik=j1irfg6WT2MQTA&amp;riu=http%3a%2f%2flh5.ggpht.com%2f-AMQf7on8nuY%2fUbtRxOLeRyI%2fAAAAAAAAACs%2fnKmm66KQdJE%2fs9000%2fgatitos-bebe-3.jpg&amp;ehk=n4TNCpyMqKUwMjPGhRtQLRzTCMmV41R8Qx%2beL2hLA%2bE%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0\" alt=\"Gatitos bebés\" width=\"300\">");
-		
-		
+
 		
 	}
 
@@ -71,7 +70,8 @@ public class log2 extends HttpServlet {
 	public static boolean escribirLog(String user, String ip, String sl, String method) {
 		// Intentamos abrir el archivo y escribir en él
 		 boolean res = false;
-		 
+
+		
         try {
         	String texto =  LocalDateTime.now() + " " + user + " " + ip + " " + sl + " " + method + "\n";
             // Creamos un objeto FileWriter con la ruta del archivo
