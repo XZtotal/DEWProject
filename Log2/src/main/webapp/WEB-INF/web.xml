@@ -3,7 +3,7 @@
   <display-name>Log2</display-name>
    <context-param>
     	<param-name>logFilePath</param-name>
-   		<param-value>/home/user/tomcat/webapps/log2/fichero</param-value>
+   		<param-value>/home/user/tomcat/webapps/Log2/registro.txt</param-value>
   </context-param>
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
