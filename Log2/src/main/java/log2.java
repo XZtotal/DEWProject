@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.BufferedWriter;
 import java.time.LocalDateTime;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -67,7 +68,7 @@ public class log2 extends HttpServlet {
 	
 	//Ej. formato log:    2020-06-09T19:38:14.278 prof1 158.11.11.11 acceso GET
 
-	public static boolean escribirLog(String user, String ip, String sl, String method) {
+	public boolean escribirLog(String user, String ip, String sl, String method) {
 		// Intentamos abrir el archivo y escribir en él
 		 boolean res = false;
 
