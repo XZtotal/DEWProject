@@ -39,7 +39,7 @@ public class log1 extends HttpServlet {
 		String preTituloHTML5 = "<!DOCTYPE html>\n<html>\n<head>\n"
 				+ "<meta http-equiv=\"Content-type\" content=\"text/html; charset=utf-8\"/>";
 		
-		out.println(preTituloHTML5+"<title>Log0</title></head><body>");
+		out.println(preTituloHTML5+"<title>Log1</title></head><body>");
 		
 		out.println("<p>Nombre: "+getServletName()+"</p>");
 		out.println("<p>Nombre del usuario:  "+ request.getParameter("usuario")+"</p>");
@@ -49,7 +49,7 @@ public class log1 extends HttpServlet {
 		out.println("<p>Fecha actual:  " +LocalDateTime.now().toString()+"</p>");
 		out.println("<p>URI del servlet:  " +request.getRequestURI()+"</p>");
 		out.println("<p>Método invocado:  " +request.getMethod()+"</p>");
-		boolean saved = escribirLog(request.getParameter("usuario"),request.getRemoteAddr(),"log0",request.getMethod());				
+		boolean saved = escribirLog(request.getParameter("usuario"),request.getRemoteAddr(),"log1",request.getMethod());				
 		out.println("<p>Log saved:  " + (saved ? "Si" : "No")+"</p>");
 		out.println("<img src=\"https://th.bing.com/th/id/R.67f45e761519fd772264f8186eea8da9?rik=j1irfg6WT2MQTA&amp;riu=http%3a%2f%2flh5.ggpht.com%2f-AMQf7on8nuY%2fUbtRxOLeRyI%2fAAAAAAAAACs%2fnKmm66KQdJE%2fs9000%2fgatitos-bebe-3.jpg&amp;ehk=n4TNCpyMqKUwMjPGhRtQLRzTCMmV41R8Qx%2beL2hLA%2bE%3d&amp;risl=&amp;pid=ImgRaw&amp;r=0\" alt=\"Gatitos bebés\" width=\"300\">");
 		
