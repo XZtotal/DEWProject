@@ -9,4 +9,38 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>Protegido</realm-name>
+  </login-config>
+  <servlet>
+    <description></description>
+    <display-name>AuthTest</display-name>
+    <servlet-name>AuthTest</servlet-name>
+    <servlet-class>AuthTest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AuthTest</servlet-name>
+    <url-pattern>/AuthTest</url-pattern>
+  </servlet-mapping>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>EjemploServlet</web-resource-name>
+      <url-pattern>/</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>alumno</role-name>
+      <role-name>profesor</role-name>
+    </auth-constraint>
+  </security-constraint>
+  <servlet>
+    <description></description>
+    <display-name>Logout</display-name>
+    <servlet-name>Logout</servlet-name>
+    <servlet-class>Logout</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>Logout</servlet-name>
+    <url-pattern>/Logout</url-pattern>
+  </servlet-mapping>
 </web-app>
