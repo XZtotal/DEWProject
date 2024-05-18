@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import utils.LogUtil;
+
 /**
  * Servlet implementation class Logout
  */
@@ -25,13 +27,18 @@ public class Logout extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// Obtener la sesión actual del usuario (si existe)
-        HttpSession session = request.getSession(false);
-        
+		// Invalidar la sesión
+        HttpSession session = request.getSession(false); // Obtener la sesión actual, si existe
         if (session != null) {
             session.invalidate();
         }
-        response.sendRedirect(request.getContextPath()+"/index.html");		
+        
+        // Realizar logout
+        LogUtil.log(request,"logout");
+        request.logout();
+        
+        // Redirigir a la página de inicio o login
+        response.sendRedirect(request.getContextPath() + "/index.html");
 	}
 
 	/**

@@ -9,10 +9,35 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
+  
   <login-config>
-    <auth-method>BASIC</auth-method>
-    <realm-name>Protegido</realm-name>
+    <auth-method>FORM</auth-method>
+    <form-login-config>
+      <form-login-page>/login.html</form-login-page>
+      <form-error-page>/error.html</form-error-page>
+      
+    </form-login-config>
   </login-config>
+  
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Protegido</web-resource-name>
+      <url-pattern>/api/*</url-pattern>
+      <url-pattern>/alumno/*</url-pattern>
+      <url-pattern>/profesor/*</url-pattern>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>alumno</role-name>
+      <role-name>profesor</role-name>
+    </auth-constraint>
+  </security-constraint>
+   <security-role>
+    <role-name>alumno</role-name>
+  </security-role>
+  <security-role>
+    <role-name>profesor</role-name>
+  </security-role>
+    
   <servlet>
     <description></description>
     <display-name>AuthTest</display-name>
@@ -21,18 +46,9 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AuthTest</servlet-name>
-    <url-pattern>/AuthTest</url-pattern>
+    <url-pattern>/authtest</url-pattern>
   </servlet-mapping>
-  <security-constraint>
-    <web-resource-collection>
-      <web-resource-name>EjemploServlet</web-resource-name>
-      <url-pattern>/</url-pattern>
-    </web-resource-collection>
-    <auth-constraint>
-      <role-name>alumno</role-name>
-      <role-name>profesor</role-name>
-    </auth-constraint>
-  </security-constraint>
+  
   <servlet>
     <description></description>
     <display-name>Logout</display-name>
@@ -41,6 +57,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Logout</servlet-name>
-    <url-pattern>/Logout</url-pattern>
+    <url-pattern>/logout</url-pattern>
   </servlet-mapping>
 </web-app>
