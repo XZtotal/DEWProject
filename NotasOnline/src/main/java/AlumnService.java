@@ -140,5 +140,3 @@ public class AlumnService extends HttpServlet {
         return response.body();
     }
 }
-
-}
