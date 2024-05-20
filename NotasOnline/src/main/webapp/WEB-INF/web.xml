@@ -9,16 +9,13 @@
     <welcome-file>default.jsp</welcome-file>
     <welcome-file>default.htm</welcome-file>
   </welcome-file-list>
-  
   <login-config>
     <auth-method>FORM</auth-method>
     <form-login-config>
       <form-login-page>/login.html</form-login-page>
       <form-error-page>/error.html</form-error-page>
-      
     </form-login-config>
   </login-config>
-  
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Protegido</web-resource-name>
@@ -31,13 +28,12 @@
       <role-name>profesor</role-name>
     </auth-constraint>
   </security-constraint>
-   <security-role>
+  <security-role>
     <role-name>alumno</role-name>
   </security-role>
   <security-role>
     <role-name>profesor</role-name>
   </security-role>
-    
   <servlet>
     <description></description>
     <display-name>AuthTest</display-name>
@@ -48,7 +44,6 @@
     <servlet-name>AuthTest</servlet-name>
     <url-pattern>/authtest</url-pattern>
   </servlet-mapping>
-  
   <servlet>
     <description></description>
     <display-name>Logout</display-name>
@@ -58,5 +53,15 @@
   <servlet-mapping>
     <servlet-name>Logout</servlet-name>
     <url-pattern>/logout</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AlumnService</display-name>
+    <servlet-name>AlumnService</servlet-name>
+    <servlet-class>AlumnService</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AlumnService</servlet-name>
+    <url-pattern>/AlumnService</url-pattern>
   </servlet-mapping>
 </web-app>
