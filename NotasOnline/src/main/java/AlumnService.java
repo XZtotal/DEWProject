@@ -1,6 +1,6 @@
 
 
-import org.json.JSONObject;
+import org.json.*;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -22,7 +22,7 @@ public class AlumnService extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	
-	private static final String BASE_URL = "http://centroeducativo.com/api/alumnos/";
+	private static final String BASE_URL = "http://localhost:9090/CentroEducativo/alumnos/";
     /**
      * Default constructor. 
      */
