@@ -22,7 +22,7 @@ public class AlumnService extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	
-	private static final String BASE_URL = "http://localhost:9090/CentroEducativo/alumnos";
+	private static final String BASE_URL = "http://localhost:8080/NotasOnline/centroeducativo/api/alumnos";
     /**
      * Default constructor. 
      */
