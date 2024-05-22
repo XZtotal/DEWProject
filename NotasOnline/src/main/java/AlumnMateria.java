@@ -6,6 +6,11 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 public class AlumnMateria extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final String BASE_URL = "http://localhost:9090/CentroEducativo/alumnos/";
