@@ -68,7 +68,7 @@
     <p>Te has equivocado en el login, tanquilizate y recapacita de tus errores.</p>
     <p>Toma un gatito para ayudar:</p>
     <img src="http://thecatapi.com/api/images/get?format=src&type=gif&timestamp=" alt="Gatito" width="300">
-    <p>Volviendo al login en <span id="countdown">Volviendo al login en 10 segundos...</span> </p>
+    <p>Volviendo al login en <span id="countdown">10 segundos...</span></p>
     <a href="#" onclick="window.history.back();" class="btn">Volver</a>
     
     
@@ -78,7 +78,7 @@
     function mostrarContador() {
       var segundos = 10;
       var contador = setInterval(function() {
-        document.getElementById("countdown").innerText = "Volviendo al login en " + segundos + " segundos...";
+        document.getElementById("countdown").innerText =  segundos + " segundos...";
         segundos--;
         if (segundos < 0) {
           clearInterval(contador);
