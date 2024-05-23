@@ -62,8 +62,13 @@ public class AlumnService extends HttpServlet {
 		        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al obtener la información del alumno");
 		    }
 	    }
-
 	
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);	
+
+
 	private String sendRequest(String url, String method, JSONObject body) throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
