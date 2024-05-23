@@ -62,7 +62,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>AlumnService</servlet-name>
-    <url-pattern>/AlumnService</url-pattern>
+    <url-pattern>/api/alumno</url-pattern>
   </servlet-mapping>
   <listener>
     <listener-class>listener.PropertiesInitializer</listener-class>

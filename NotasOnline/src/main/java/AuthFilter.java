@@ -111,6 +111,8 @@ public class AuthFilter extends HttpFilter implements Filter {
             
             session.setAttribute("dni", dni);
             session.setAttribute("key",key );
+            httpRequest.setAttribute("dni", dni);
+            httpRequest.setAttribute("key", key);
         
             
         }
