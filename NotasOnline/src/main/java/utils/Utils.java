@@ -27,4 +27,45 @@ public class Utils {
         }
         return response;
     }
+
+
+     private JSONArray getAsignaturas(HttpServletRequest request, String key, String dni, List<String> cookies) throws IOException {
+	URL url = new URL("http://localhost:9090/CentroEducativo/alumnos/" + dni + "/asignaturas?key=" + key);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        for (String cookie : cookies) {
+            connection.addRequestProperty("Cookie", cookie.split(";", 2)[0]);
+        }
+        connection.setDoOutput(true);
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("accept", "application/json");
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+            StringBuilder result = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                result.append(line.trim());
+            }
+            return new JSONArray(result.toString());
+        }
+    }
+
+ private JSONObject getAlumno(HttpServletRequest request, String key, String dni, List<String> cookies) throws IOException {
+        URL url = new URL("http://localhost:9090/CentroEducativo/alumnos/" + dni + "?key=" + key);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        for (String cookie : cookies) {
+            connection.addRequestProperty("Cookie", cookie.split(";", 2)[0]);
+        }
+        connection.setDoOutput(true);
+        connection.setRequestMethod("GET");
+        connection.setRequestProperty("accept", "application/json");
+
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()))) {
+            StringBuilder result = new StringBuilder();
+            String line;
+            while ((line = br.readLine()) != null) {
+                result.append(line.trim());
+            }
+            return new JSONObject(result.toString());
+        }
+    }
 }
