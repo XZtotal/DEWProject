@@ -53,9 +53,14 @@ public class AlumnService extends HttpServlet {
 		        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "DNI del alumno es requerido");
 		        return;
 		    }
-
+		    
 		    try {
-		        String alumnoInfo = sendRequest(BASE_URL + id, "GET", null);
+		    	HttpResponse<String> rrr = Utils.sendRequest(BASE_URL + id, "GET", null);
+		    	if (rrr.statusCode() != 200 && rrr.statusCode() != 201 && rrr.statusCode() != 204) {
+		            throw new RuntimeException("Error en la petición: " + rrr.statusCode());
+		        }
+		        
+		        String alumnoInfo = rrr.body();
 		        response.setContentType("application/json");
 		        PrintWriter out = response.getWriter();
 		        out.print(alumnoInfo);
@@ -68,8 +73,8 @@ public class AlumnService extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);	
-
+		doGet(request, response);
+	}
 
 
 }

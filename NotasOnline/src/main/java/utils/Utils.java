@@ -1,14 +1,23 @@
 package utils;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class Utils {
-	private HttpResponse<String> sendRequest(String url, String method, JSONObject body) throws Exception {
+	public static HttpResponse<String> sendRequest(String url, String method, JSONObject body) throws Exception {
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest.Builder requestBuilder = HttpRequest.newBuilder()
                 .uri(new URI(url));
@@ -29,7 +38,7 @@ public class Utils {
     }
 
 
-     private JSONArray getAsignaturas(HttpServletRequest request, String key, String dni, List<String> cookies) throws IOException {
+	public static JSONArray getAsignaturas(HttpServletRequest request, String key, String dni, List<String> cookies) throws IOException {
 	URL url = new URL("http://localhost:9090/CentroEducativo/alumnos/" + dni + "/asignaturas?key=" + key);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         for (String cookie : cookies) {
@@ -49,7 +58,7 @@ public class Utils {
         }
     }
 
- private JSONObject getAlumno(HttpServletRequest request, String key, String dni, List<String> cookies) throws IOException {
+	public static JSONObject getAlumno(HttpServletRequest request, String key, String dni, List<String> cookies) throws IOException {
         URL url = new URL("http://localhost:9090/CentroEducativo/alumnos/" + dni + "?key=" + key);
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         for (String cookie : cookies) {
