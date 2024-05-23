@@ -72,7 +72,7 @@ public class AlumnService extends HttpServlet {
 		        }
 		        
 		    	JSONArray notas = new JSONArray(rrr2.body());
-		    	json.append("notas", notas);
+		    	json.put("notas", notas);
 		        
 		        response.setContentType("application/json");
 		        PrintWriter out = response.getWriter();
