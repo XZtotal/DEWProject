@@ -36,6 +36,23 @@ public class Utils {
         }
         return response;
     }
+	
+	public static HttpResponse<String> sendGetRequest(String url) throws Exception {
+	    HttpClient client = HttpClient.newHttpClient();
+
+	   
+	    HttpRequest request = HttpRequest.newBuilder()
+	            .uri(new URI(url))
+	            .GET()
+	            .build();
+
+	    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+	    if (response.statusCode() != 200) {
+	        throw new RuntimeException("Error en la petición: " + response.statusCode());
+	    }
+	    return response;
+	}
 
 
 	public static JSONArray getAsignaturas(HttpServletRequest request, String key, String dni, List<String> cookies) throws IOException {
