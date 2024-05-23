@@ -30,8 +30,9 @@ public class AuthTest extends HttpServlet {
 		HttpSession session = request.getSession(false);
 		boolean isProfesor = request.isUserInRole("profesor");
 		boolean isAlumno = request.isUserInRole("alumno");
+	
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		response.getWriter().append("  login: "+login+", isProfesor: "+isProfesor+", isAlumno: " + isAlumno+ ", dni: "+ (session!=null ? request.getAttribute("dni") : "nosession" ) +", key:  "+ (session!=null ? request.getAttribute("key") : "nosession" )); 
+		response.getWriter().append("  login: "+login+", isProfesor: "+isProfesor+", isAlumno: " + isAlumno+ ", dni: "+ (session!=null ? session.getAttribute("dni") : "nosession" ) +", key:  "+ (session!=null ? session.getAttribute("key") : "nosession" )); 
 	}
 
 	/**

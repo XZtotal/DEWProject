@@ -53,14 +53,16 @@ public class AuthFilter extends HttpFilter implements Filter {
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpSession session = httpRequest.getSession(false);
         LogUtil.log("filtro activo");
+        LogUtil.log(httpRequest.getAttribute("key") + "  "+ (session == null? "nosesion " : session.getAttribute("key")));
 
-        if (session != null && session.getAttribute("username") == null && request.getAttribute("key") == null) {
+        if (session != null && httpRequest.getRemoteUser() != null && httpRequest.getAttribute("key") == null && session.getAttribute("key") == null) {
         	
         	String username = httpRequest.getRemoteUser(); // Obtener el nombre de usuario
         	
             Properties userParams = (Properties) config.getServletContext().getAttribute("users");
             String key = null;            
             String dni = userParams.getProperty(username + ".dni");
+            HttpCookie galleta = null;
             LogUtil.log("dni: "+dni);
             String password = userParams.getProperty(username + ".pass");
             
@@ -85,7 +87,9 @@ public class AuthFilter extends HttpFilter implements Filter {
 
                 // Verificar el código de estado de la respuesta
                 if (resp.statusCode() == 200) {
+                	
                     // Obtener las cookies de la respuesta
+                    
                     HttpHeaders headers = resp.headers();
                     List<String> cookies = headers.allValues("Set-Cookie");
 
@@ -96,9 +100,11 @@ public class AuthFilter extends HttpFilter implements Filter {
                             String valorCookie = httpCookie.getValue();
                             LogUtil.log("Valor de la cookie: " + valorCookie);
                             // Puedes guardar el valor de la cookie en una String o donde lo necesites
-                            key = valorCookie;
+                            galleta = httpCookie;
                         }
                     }
+                    
+                	key = resp.body();
                 } else {
                 	LogUtil.log("La solicitud no se completó correctamente. Código de estado: " + resp.statusCode());
                 }
@@ -111,9 +117,9 @@ public class AuthFilter extends HttpFilter implements Filter {
             
             session.setAttribute("dni", dni);
             session.setAttribute("key",key );
+            session.setAttribute("cookie",galleta);
             httpRequest.setAttribute("dni", dni);
-            httpRequest.setAttribute("key", key);
-        
+            httpRequest.setAttribute("key", key);       
             
         }
         

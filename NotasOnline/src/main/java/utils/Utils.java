@@ -3,6 +3,7 @@ package utils;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpCookie;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URL;
@@ -37,13 +38,16 @@ public class Utils {
         return response;
     }
 	
-	public static HttpResponse<String> sendGetRequest(String url) throws Exception {
+	public static HttpResponse<String> sendGetRequest(String url, HttpCookie cookie) throws Exception {
 	    HttpClient client = HttpClient.newHttpClient();
 
-	   
+	    // Crear el valor del encabezado 'Cookie' a partir de la HttpCookie
+	    String cookieHeader = cookie.getName() + "=" + cookie.getValue();
+
 	    HttpRequest request = HttpRequest.newBuilder()
 	            .uri(new URI(url))
 	            .GET()
+	            .header("Cookie", cookieHeader)
 	            .build();
 
 	    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
