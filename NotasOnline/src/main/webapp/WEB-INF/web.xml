@@ -64,4 +64,16 @@
     <servlet-name>AlumnService</servlet-name>
     <url-pattern>/AlumnService</url-pattern>
   </servlet-mapping>
+  <listener>
+    <listener-class>listener.PropertiesInitializer</listener-class>
+  </listener>
+  <filter>
+    <display-name>AuthFilter</display-name>
+    <filter-name>AuthFilter</filter-name>
+    <filter-class>AuthFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>  
 </web-app>
