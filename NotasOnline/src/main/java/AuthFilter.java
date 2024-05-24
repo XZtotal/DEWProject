@@ -54,6 +54,11 @@ public class AuthFilter extends HttpFilter implements Filter {
         HttpSession session = httpRequest.getSession(false);
         LogUtil.log("filtro activo");
         LogUtil.log(httpRequest.getAttribute("key") + "  "+ (session == null? "nosesion " : session.getAttribute("key")));
+        
+        //para que ninguna pagina se guarde en cache
+        httpResponse.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
+        httpResponse.setHeader("Pragma", "no-cache");
+        httpResponse.setDateHeader("Expires", 0);
 
         if (session != null && httpRequest.getRemoteUser() != null && session.getAttribute("key") == null) {
         	
