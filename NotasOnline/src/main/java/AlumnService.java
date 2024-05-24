@@ -70,9 +70,32 @@ public class AlumnService extends HttpServlet {
 		    	if (rrr2.statusCode() != 200 && rrr2.statusCode() != 201 && rrr2.statusCode() != 204) {
 		            throw new RuntimeException("Error en la petición 2: " + rrr2.statusCode());
 		        }
-		        
-		    	JSONArray notas = new JSONArray(rrr2.body());
+		    	JSONArray notas = new JSONArray(rrr2.body());		    	
+		    	
+		    	HttpResponse<String> rrr3 = Utils.sendGetRequest(BASE_URL+ "/asignaturas?key="+key,galleta);
+		    	if (rrr3.statusCode() != 200 && rrr3.statusCode() != 201 && rrr3.statusCode() != 204) {
+		            throw new RuntimeException("Error en la petición 2: " + rrr3.statusCode());
+		        }
+		    	JSONArray asignaturas = new JSONArray(rrr3.body());	
+		    	
+		    	for (int i = 0; i<notas.length();i++) {
+		    		for(int j= 0; j<asignaturas.length();j++) {
+		    			JSONObject nota = notas.getJSONObject(i);
+		    			JSONObject asig = asignaturas.getJSONObject(j);
+		    			
+		    			if(nota.getString("asignatura").equalsIgnoreCase(asig.getString("acronimo"))) {
+		    				nota.put("nombre", asig.getString("nombre"));
+		    				nota.put("curso", asig.getInt("curso"));
+		    				nota.put("cuatrimestre", asig.getString("cuatrimestre"));
+		    				nota.put("creditos", asig.getFloat("creditos"));
+		    				break;
+		    			}
+		    			
+		    		}
+		    	}
+		    	
 		    	json.put("notas", notas);
+		    	
 		        
 		        response.setContentType("application/json");
 		        PrintWriter out = response.getWriter();
