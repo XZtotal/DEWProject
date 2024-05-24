@@ -55,16 +55,16 @@ public class AuthFilter extends HttpFilter implements Filter {
         LogUtil.log("filtro activo");
         LogUtil.log(httpRequest.getAttribute("key") + "  "+ (session == null? "nosesion " : session.getAttribute("key")));
 
-        if (session != null && httpRequest.getRemoteUser() != null && httpRequest.getAttribute("key") == null && session.getAttribute("key") == null) {
+        if (session != null && httpRequest.getRemoteUser() != null && session.getAttribute("key") == null) {
         	
         	String username = httpRequest.getRemoteUser(); // Obtener el nombre de usuario
         	
             Properties userParams = (Properties) config.getServletContext().getAttribute("users");
             String key = null;            
+            String password = userParams.getProperty(username + ".pass");
             String dni = userParams.getProperty(username + ".dni");
             HttpCookie galleta = null;
             LogUtil.log("dni: "+dni);
-            String password = userParams.getProperty(username + ".pass");
             
             
             String url = "http://localhost:9090/CentroEducativo/login";
@@ -85,7 +85,7 @@ public class AuthFilter extends HttpFilter implements Filter {
                 // Enviar la solicitud y obtener la respuesta
                 HttpResponse<String> resp = httpClient.send(req, HttpResponse.BodyHandlers.ofString());
 
-                // Verificar el código de estado de la respuesta
+                
                 if (resp.statusCode() == 200) {
                 	
                     // Obtener las cookies de la respuesta
@@ -93,13 +93,12 @@ public class AuthFilter extends HttpFilter implements Filter {
                     HttpHeaders headers = resp.headers();
                     List<String> cookies = headers.allValues("Set-Cookie");
 
-                    // Iterar sobre las cookies para encontrar la que necesitas
+                    // Buscar la cookie
                     for (String cookie : cookies) {
                         HttpCookie httpCookie = HttpCookie.parse(cookie).get(0);
                         if (httpCookie.getName().equals("JSESSIONID")) {
                             String valorCookie = httpCookie.getValue();
-                            LogUtil.log("Valor de la cookie: " + valorCookie);
-                            // Puedes guardar el valor de la cookie en una String o donde lo necesites
+                            LogUtil.log("Valor de la cookie: " + valorCookie);                           
                             galleta = httpCookie;
                         }
                     }
@@ -117,14 +116,10 @@ public class AuthFilter extends HttpFilter implements Filter {
             
             session.setAttribute("dni", dni);
             session.setAttribute("key",key );
-            session.setAttribute("cookie",galleta);
-            httpRequest.setAttribute("dni", dni);
-            httpRequest.setAttribute("key", key);       
+            session.setAttribute("cookie",galleta);                
             
         }
         
-
-		// pass the request along the filter chain
 		chain.doFilter(request, response);
 	}
 
@@ -132,7 +127,6 @@ public class AuthFilter extends HttpFilter implements Filter {
 	 * @see Filter#init(FilterConfig)
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
 		config= fConfig;
 	}
 

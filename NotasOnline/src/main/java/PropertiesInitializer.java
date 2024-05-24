@@ -15,7 +15,7 @@ public class PropertiesInitializer implements ServletContextListener {
 	        System.out.println("Aplicación web iniciada. Cargando parámetros de configuración.");
 
 	        Properties usersp = new Properties();
-	        try (InputStream input = sce.getServletContext().getResourceAsStream("/WEB-INF/user-params.properties")) {
+	        try (InputStream input = sce.getServletContext().getResourceAsStream("/WEB-INF/users.properties")) {
 	            if (input != null) {
 	                usersp.load(input);
 	                sce.getServletContext().setAttribute("users", usersp);
