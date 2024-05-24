@@ -49,8 +49,8 @@
                 $('#nombre').text(data.nombre);
                 $('#apellidos').text(data.apellidos);
                 $('#dni').text(data.dni);
-                $('#curso').text('2020/21'); // Puede ser dinámico si tienes esta información en tu JSON
-                $('#foto').attr('src', '/NotasOnline/fotos/' + data.dni + '.jpg');
+                $('#curso').text('2023/24');
+                $('#foto').attr('src', '/NotasOnline/imgs/h/1.png');
                 
                 var fecha = new Date();
                 var opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -59,8 +59,8 @@
                 var calificacionesHtml = '';
                 for (var i = 0; i < data.notas.length; i++) {
                     calificacionesHtml += '<tr>' +
-                        '<td>' + data.notas[i].acronimo + '</td>' +
                         '<td>' + data.notas[i].asignatura + '</td>' +
+                        '<td>' + data.notas[i].nombre + '</td>' +
                         '<td>' + data.notas[i].nota + '</td>' +
                         '</tr>';
                 }
