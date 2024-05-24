@@ -40,9 +40,36 @@
 	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 	<script>
-	function Dni(){
-		
-	}
+    $(document).ready(function() {
+        $.ajax({
+            url: '/NotasOnline/api/alumno',
+            dataType: 'json',
+            success: function(data) {
+                $('#nombre').text(data.nombre);
+                $('#apellidos').text(data.apellidos);
+                $('#dni').text(data.dni);
+                $('#curso').text('2020/21'); // Puede ser dinámico si tienes esta información en tu JSON
+                $('#foto').attr('src', '/NotasOnline/fotos/' + data.dni + '.jpg');
+                
+                var fecha = new Date();
+                var opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
+                $('#fecha').text(fecha.toLocaleDateString('es-ES', opcionesFecha));
+
+                var calificacionesHtml = '';
+                for (var i = 0; i < data.notas.length; i++) {
+                    calificacionesHtml += '<tr>' +
+                        '<td>' + data.notas[i].acronimo + '</td>' +
+                        '<td>' + data.notas[i].asignatura + '</td>' +
+                        '<td>' + data.notas[i].nota + '</td>' +
+                        '</tr>';
+                }
+                $('#calificaciones').html(calificacionesHtml);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error al obtener los datos del alumno:', error);
+            }
+        });
+    });
 	</script>
 </head>
 <body>
@@ -51,8 +78,8 @@
             <h1 class="p-3 mb-2 bg-success text-white">DEW - Centro Educativo</h1>
             <h2 class="p-3 mb-2 bg-success-subtle text-success-emphasis">Certificado sin validez académica</h2>
         </div>
-        <p id="certificado-text"></p>
-        <img src="/NotasOnline/imgs/h/1.png"  id="photo" class="photo">
+        <p>DEW - Centro Educativo certifica que D/Dª <span id="nombre"></span> <span id="apellidos"></span>, con DNI <span id="dni"></span>, matriculado/a en el curso <span id="curso"></span>, ha obtenido las calificaciones que se muestran en la siguiente tabla.</p>
+        <img src="" id="foto" class="photo">
         <table class="table table-bordered mt-3">
             <thead class="thead-dark">
                 <tr>
@@ -66,11 +93,10 @@
         </table>
         <p class="footer" id="fecha"></p>
         <div class="signature">
-            <img src="/NotasOnline/imgs/tomcat.png"  id="tomcat" alt="tomcatimg">
+            <img src="/NotasOnline/imgs/tomcat.png" id="tomcat" alt="tomcatimg">
             <p>Firmado por el secretario</p>
             <p>Tomcat 9.0</p>
         </div>
     </div>
-
 </body>
 </html>
