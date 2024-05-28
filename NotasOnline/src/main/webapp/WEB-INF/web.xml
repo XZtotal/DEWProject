@@ -80,6 +80,28 @@
 		<servlet-name>AlumnService</servlet-name>
 		<url-pattern>/api/alumno</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<description></description>
+		<display-name>ProfeService</display-name>
+		<servlet-name>ProfeService</servlet-name>
+		<servlet-class>ProfeService</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ProfeService</servlet-name>
+		<url-pattern>/api/profesor</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<description></description>
+		<display-name>NotasService</display-name>
+		<servlet-name>NotasService</servlet-name>
+		<servlet-class>NotasService</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NotasService</servlet-name>
+		<url-pattern>/api/notas</url-pattern>
+	</servlet-mapping>
+	
 	<listener>
 		<listener-class>listener.PropertiesInitializer</listener-class>
 	</listener>
