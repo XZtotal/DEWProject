@@ -28,64 +28,57 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 <script>
 $(document).ready(function() {
-    $.ajax({
-        url: '/NotasOnline/api/profesor',
-        dataType: 'json',
-        success: function(data) {
-            $('#usuario').text(data.nombre);
-            $('#apellidos').text(data.apellidos);
-            $('#dni').text(data.dni);
+	 $.ajax({
+	 url: '/NotasOnline/api/profesor',
+	 dataType: 'json',
+	 success: (data) => {
+	 $('#usuario').text(data.nombre);
+	 $('#apellidos').text(data.apellidos);
+	 $('#dni').text(data.dni);
+	 for (var i = 0; i < data.asignaturas.length; i++) {
+         var tabId = 'asignatura' + (i + 1);
+         var activeClass = i === 0 ? 'active' : '';
+         var showClass = i === 0 ? 'show' : '';
 
-            for (var i = 0; i < data.asignaturas.length; i++) {
-                (function(i) { // Usar una IIFE para capturar correctamente el valor de i
-                    var tabId = 'asignatura' + (i + 1);
-                    var activeClass = i === 0 ? 'active' : '';
-                    var showClass = i === 0 ? 'show' : '';
+         // Crear pestaña
+         $('#myTab').append(`
+             <li class="nav-item" role="presentation">
+                 <a class="nav-link ${activeClass}" id="${tabId}-tab" data-bs-toggle="tab" href="#${tabId}" role="tab" aria-controls="${tabId}" aria-selected="${i === 0}">
+                     ${data.asignaturas[i].acronimo}
+                 </a>
+             </li>
+         `);
 
-                    // Crear pestaña
-                    $('#myTab').append(`
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link ${activeClass}" id="${tabId}-tab" data-bs-toggle="tab" href="#${tabId}" role="tab" aria-controls="${tabId}" aria-selected="${i === 0}">
-                                ${data.asignaturas[i].acronimo}
-                            </a>
-                        </li>
-                    `);
+         // Crear contenido de la pestaña con el formato de la card proporcionada
+         $('#myTabContent').append(`
+             <div class="tab-pane fade ${showClass} ${activeClass}" id="${tabId}" role="tabpanel" aria-labelledby="${tabId}-tab">
+                 <div class="card mt-3" style="width: 80rem;">
+                     <div class="card-body">
+                         <h5 class="card-title">${data.asignaturas[i].nombre}</h5>
+                         <h6 class="card-subtitle mb-2 text-body-secondary">Curso y cuatrimestre: ${data.asignaturas[i].curso}${data.asignaturas[i].cuatrimestre}</h6>
+                         <h6 class="card-subtitle mb-2 text-body-secondary">Créditos correspondientes: ${data.asignaturas[i].creditos}</h6>
+                         <button type="button" class="btn btn-primary mt-3 consultar-notas" data-asignatura="${data.asignaturas[i].acronimo}">Consultar Notas</button>
+                     </div>
+                 </div>
+             </div>
+         `);
+     }
+	 },
+	 error: function(xhr, status, error) {
+         console.error('Error al obtener el nombre del alumno:', error);
+     },
+	 
+	 
+	 })
+	 $(document).on('click', '.consultar-notas', function() {
+	        var asignatura = $(this).data('asignatura');
+	        localStorage.setItem('asignatura', asignatura); // Guardar en localStorage
+	        window.location.href = 'alumnosynotas.html'; // Redirigir a la nueva página
+	    });
+	});
+		
 
-                    // Crear contenido de la pestaña inicial
-                    $('#myTabContent').append(`
-                        <div class="tab-pane fade ${showClass} ${activeClass}" id="${tabId}" role="tabpanel" aria-labelledby="${tabId}-tab">
-                            <div class="card mt-3" style="width: 80rem;">
-                                <div class="card-body">
-                                    <h5 class="card-title">${data.asignaturas[i].nombre}</h5>
-                                    <div id="alumnos-${tabId}"></div>
-                                </div>
-                            </div>
-                        </div>
-                    `);
 
-                    // Realizar AJAX para obtener los alumnos
-                    $.ajax({
-                        url: `/NotasOnline/api/notas?asignatura=${data.asignaturas[i].acronimo}`,
-                        dataType: 'json',
-                        success: function(notasData) {
-                            var alumnosHtml = '';
-                            for (var j = 0; j < notasData.length; j++) {
-                                alumnosHtml += `<a href="#" class="alumno-link" data-alumno-id="${notasData[j].alumno}">${notasData[j].nombre} ${notasData[j].apellidos}</a><br>`;
-                            }
-                            $(`#alumnos-${tabId}`).html(alumnosHtml);
-                        },
-                        error: function(xhr, status, error) {
-                            console.error('Error al obtener los alumnos:', error);
-                        }
-                    });
-                })(i); // Llamada a la IIFE
-            }
-        },
-        error: function(xhr, status, error) {
-            console.error('Error al obtener los datos del profesor:', error);
-        }
-    });
-});
 </script>
 </head>
 <body>

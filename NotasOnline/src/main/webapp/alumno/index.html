@@ -49,6 +49,13 @@ $(document).ready(function() {
                  </a>
              </li>
          `);
+         
+         var nota = '';
+         if (data.notas[i].nota == 0) {
+             nota = '<p class="card-text fw-bolder">Asignatura por calificar</p>';
+         } else {
+             nota = `<p class="card-text fw-bolder">Su calificación es: ${data.notas[i].nota}</p>`;
+         }
 
          // Crear contenido de la pestaña con el formato de la card proporcionada
          $('#myTabContent').append(`
@@ -58,7 +65,7 @@ $(document).ready(function() {
                          <h5 class="card-title">${data.notas[i].nombre}</h5>
                          <h6 class="card-subtitle mb-2 text-body-secondary">Curso y cuatrimestre: ${data.notas[i].curso}${data.notas[i].cuatrimestre}</h6>
                          <h6 class="card-subtitle mb-2 text-body-secondary">Créditos correspondientes: ${data.notas[i].creditos}</h6>
-                         <p class="card-text fw-bolder">Su calificación es: ${data.notas[i].nota}</p>
+                         ${nota}
                      </div>
                  </div>
              </div>
