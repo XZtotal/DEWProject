@@ -42,9 +42,14 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(data) {
                 $('#asignatura-title').text(`Alumnos de ${asignatura}`);
+                var notatotal;
+                var notamedia;
                 var alumnos = data;
                 for (var i = 0; i < alumnos.length; i++) {
                     var nota = alumnos[i].nota === null ? 'Sin calificar' : alumnos[i].nota;
+                    notatotal += alumnos[i].nota;
+                    notamedia = notatotal/alumnos.length;
+                    
                     $('#alumnos-table tbody').append(`
                         <tr>
                             <td><a href="">${alumnos[i].nombre} ${alumnos[i].apellidos}</a></td>
@@ -56,6 +61,7 @@ $(document).ready(function() {
                         </tr>
                     `);
                 }
+                $('#notamedia').text(`La nota media de la asignatura es: ${notamedia}`);
             },
             error: function(xhr, status, error) {
                 console.error('Error al obtener los datos de los alumnos:', error);
@@ -96,11 +102,11 @@ $(document).ready(function() {
             </tbody>
         </table>
         <div class="btn-container">
-            <!-- Botón de actualizar notas -->
             <button id="actualizar-notas-btn" type="button" class="btn btn-primary">Actualizar Notas</button>
         </div>
     </div>
     <p class="text-decoration-none text-body-secondary ">Para consultar los detalles sobre un alumno haga click sobre su nombre y apellidos</p>
+    <p id="notamedia">La nota media de la asignatura es:</p>
 </div>
 
 </body>
