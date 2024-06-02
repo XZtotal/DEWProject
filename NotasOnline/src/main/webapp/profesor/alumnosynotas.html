@@ -42,14 +42,20 @@ $(document).ready(function() {
             dataType: 'json',
             success: function(data) {
                 $('#asignatura-title').text(`Alumnos de ${asignatura}`);
-                var notatotal;
-                var notamedia;
                 var alumnos = data;
+                var totalNotas = 0;
+                var countNotas = 0;
+                var notaSinCalificar = false;
+
                 for (var i = 0; i < alumnos.length; i++) {
-                    var nota = alumnos[i].nota === null ? 'Sin calificar' : alumnos[i].nota;
-                    notatotal += alumnos[i].nota;
-                    notamedia = notatotal/alumnos.length;
-                    
+                    var nota = alumnos[i].nota === "" ? 'Sin calificar' : parseFloat(alumnos[i].nota);
+                    if (alumnos[i].nota === "") {
+                        notaSinCalificar = true;
+                    } else {
+                        totalNotas += nota;
+                        countNotas++;
+                    }
+
                     $('#alumnos-table tbody').append(`
                         <tr>
                             <td><a href="">${alumnos[i].nombre} ${alumnos[i].apellidos}</a></td>
@@ -61,7 +67,13 @@ $(document).ready(function() {
                         </tr>
                     `);
                 }
-                $('#notamedia').text(`La nota media de la asignatura es: ${notamedia}`);
+
+                if (notaSinCalificar) {
+                    $('#notamedia').text("No se puede calcular la media porque hay alguna nota sin calificar");
+                } else {
+                    var notamedia = totalNotas / countNotas;
+                    $('#notamedia').text(`La nota media de la asignatura es: ${notamedia.toFixed(2)}`);
+                }
             },
             error: function(xhr, status, error) {
                 console.error('Error al obtener los datos de los alumnos:', error);
@@ -73,11 +85,31 @@ $(document).ready(function() {
 
     // Controlador de eventos para el botón "Actualizar Notas"
     $('#actualizar-notas-btn').click(function() {
+        var totalNotas = 0;
+        var countNotas = 0;
+        var notaSinCalificar = false;
+
         $('#alumnos-table tbody tr').each(function() {
             var notaInput = $(this).find('.numero');
             var nota = notaInput.val();
-            $(this).find('td:nth-child(3)').text(nota === '' ? 'Sin calificar' : nota);
+
+            if (nota === '') {
+                $(this).find('td:nth-child(3)').text('Sin calificar');
+                notaSinCalificar = true;
+            } else {
+                nota = parseFloat(nota);
+                $(this).find('td:nth-child(3)').text(nota);
+                totalNotas += nota;
+                countNotas++;
+            }
         });
+
+        if (notaSinCalificar) {
+            $('#notamedia').text("No se puede calcular la media porque hay alguna nota sin calificar");
+        } else {
+            var notamedia = totalNotas / countNotas;
+            $('#notamedia').text(`La nota media de la asignatura es: ${notamedia.toFixed(2)}`);
+        }
     });
 });
 </script>
@@ -106,7 +138,7 @@ $(document).ready(function() {
         </div>
     </div>
     <p class="text-decoration-none text-body-secondary ">Para consultar los detalles sobre un alumno haga click sobre su nombre y apellidos</p>
-    <p id="notamedia">La nota media de la asignatura es:</p>
+    <p class="fw-semibold fs-5" id="notamedia">La nota media de la asignatura es:</p>
 </div>
 
 </body>

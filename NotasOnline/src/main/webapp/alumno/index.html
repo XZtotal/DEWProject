@@ -52,8 +52,8 @@ $(document).ready(function() {
          `);
          
          var nota = '';
-         if (data.notas[i].nota == 0) {
-             nota = '<p class="card-text fw-bolder">Asignatura por calificar</p>';
+         if (data.notas[i].nota == "") {
+             nota = `<p class="card-text fw-bolder">Asignatura por calificar</p>`;
          } else {
              nota = `<p class="card-text fw-bolder">Su calificación es: ${data.notas[i].nota}</p>`;
          }
