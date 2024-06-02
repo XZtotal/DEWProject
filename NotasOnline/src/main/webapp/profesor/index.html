@@ -35,7 +35,7 @@ $(document).ready(function() {
 	 $('#usuario').text(data.nombre);
 	 $('#apellidos').text(data.apellidos);
 	 $('#dni').text(data.dni);
-	 $('#foto').src("/NotasOnline/imgs/asignadas/"+ data.dni+".png");
+	 $('#foto').attr('src', '/NotasOnline/imgs/asignadas/'+data.dni+'.png');	
 	 for (var i = 0; i < data.asignaturas.length; i++) {
          var tabId = 'asignatura' + (i + 1);
          var activeClass = i === 0 ? 'active' : '';

@@ -36,9 +36,7 @@ $(document).ready(function() {
 	 $('#usuario').text(data.nombre);
 	 $('#apellidos').text(data.apellidos);
 	 $('#dni').text(data.dni); 
-	//../imgs/asignadas/06374291A.png
-	 $('#foto').src("../imgs/asignadas/"+data.dni+".png");
-	 //$('#foto').src("/NotasOnline/imgs/asignadas/"+data.dni+".png");
+	 $('#foto').attr('src', '/NotasOnline/imgs/asignadas/'+data.dni+'.png');
 	 for (var i = 0; i < data.notas.length; i++) {
          var tabId = 'asignatura' + (i + 1);
          var activeClass = i === 0 ? 'active' : '';

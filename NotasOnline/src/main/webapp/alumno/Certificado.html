@@ -50,7 +50,7 @@
                 $('#apellidos').text(data.apellidos);
                 $('#dni').text(data.dni);
                 $('#curso').text('2023/24');
-                $('#foto').attr('src', '/NotasOnline/imgs/h/1.png');
+                $('#foto').attr('src', '/NotasOnline/imgs/asignadas/'+data.dni+'.png');
                 
                 var fecha = new Date();
                 var opcionesFecha = { year: 'numeric', month: 'long', day: 'numeric' };
