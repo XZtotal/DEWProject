@@ -57,6 +57,28 @@ public class Utils {
 	    }
 	    return response;
 	}
+	
+	public static HttpResponse<String> sendPutRequest(String url, HttpCookie cookie, String body) throws Exception {
+        HttpClient client = HttpClient.newHttpClient();
+
+        // Crear el valor del encabezado 'Cookie' a partir de la HttpCookie
+        String cookieHeader = cookie.getName() + "=" + cookie.getValue();
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(url))
+                .PUT(HttpRequest.BodyPublishers.ofString(body))
+                .header("Cookie", cookieHeader)
+                .header("Content-Type", "application/json")
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() != 200 && response.statusCode() != 201) {
+            throw new RuntimeException("Error en la petición PUT: " + response.statusCode());
+        }
+        return response;
+    }
+
 
 
 	public static JSONArray getAsignaturas(HttpServletRequest request, String key, String dni, List<String> cookies) throws IOException {

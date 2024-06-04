@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.HttpCookie;
@@ -42,7 +43,6 @@ public class NotasService extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 			HttpSession sesion = request.getSession(false);
 			if(sesion == null) return;
 			
@@ -57,7 +57,7 @@ public class NotasService extends HttpServlet {
 		    String asignatura = request.getParameter("asignatura");
 		    
 		    if (key == null || key.isEmpty()) {
-		        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Sesión no iniciada");
+		        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Sesión no iniciada");
 		        return;
 		    }
 		    if (id == null || id.isEmpty()) {
@@ -65,7 +65,7 @@ public class NotasService extends HttpServlet {
 		        return;
 		    }
 		    if (asignatura == null || asignatura.isEmpty()) {
-		        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Asignatura no valida");
+		        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Asignatura no especificada");
 		        return;
 		    }
 		    
@@ -88,7 +88,7 @@ public class NotasService extends HttpServlet {
 				}
 		    	
 		    	if (!existe) {
-			        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Asignatura no valida");
+			        response.sendError(HttpServletResponse.SC_FORBIDDEN, "Asignatura no permitida");
 			        return;
 			    }
 		    	
@@ -131,11 +131,110 @@ public class NotasService extends HttpServlet {
 		        
 		    }
 	    }
-	
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		response.sendError(404);
+	}
+	
+	@Override
+	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		HttpSession sesion = request.getSession(false);
+		if(sesion == null) return;
+		
+		if (!request.isUserInRole("profesor")) {
+			response.sendError(403);
+			return;
+		}
+	    String key = (String) sesion.getAttribute("key");
+	    String id = (String) sesion.getAttribute("dni");
+	    HttpCookie galleta = (HttpCookie) sesion.getAttribute("cookie");	    
+	    String asignatura = request.getParameter("asignatura");
+	    
+	    //Comprobamos datos	    
+	    if (key == null || key.isEmpty()) {
+	    	response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Sesión no iniciada");
+	    	return;
+	    }
+	    if (id == null || id.isEmpty()) {
+	    	response.sendError(HttpServletResponse.SC_BAD_REQUEST, "DNI del profesor es requerido");
+	    	return;
+	    }
+	    if (asignatura == null || asignatura.isEmpty()) {
+	    	response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Asignatura no valida");
+	    	return;
+	    }
+	    
+	    //Extraemos el json que esta en el cuerpo del mensaje
+	    StringBuilder sb = new StringBuilder();
+	    BufferedReader reader = request.getReader();
+	    String line;
+	    while ((line = reader.readLine()) != null) {
+	        sb.append(line);
+	    }
+	    JSONArray nuevasNotas = new JSONArray(sb.toString());	    
+	    
+	    try {
+	    	//Asignaturas del profesor
+	    	HttpResponse<String> resAsig = Utils.sendGetRequest(BASE_URL+"/profesores/" + id+"/asignaturas?key="+key,galleta);
+	    	if (resAsig.statusCode() != 200 && resAsig.statusCode() != 201 && resAsig.statusCode() != 204) {
+	    		throw new RuntimeException("Error en la petición: " + resAsig.statusCode());
+	    	}
+	    	
+	    	JSONArray asig = new JSONArray(resAsig.body());
+	    	boolean tieneAsignatura = false;
+	    	
+	    	for (int i = 0; i < asig.length(); i++) {
+	    		if (asig.getJSONObject(i).getString("acronimo").equals(asignatura)) {
+                    tieneAsignatura = true;
+                    break;  
+                }
+			}	    	
+	    	if (!tieneAsignatura) {
+		        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Asignatura no valida");
+		        return;
+		    }
+	    	
+	    	//Alumnos de dicha asignatura
+	    	HttpResponse<String> resAlumnos = Utils.sendGetRequest(BASE_URL+"/asignaturas/"+asignatura+"/alumnos?key="+key,galleta);
+	    	if (resAlumnos.statusCode() != 200 && resAlumnos.statusCode() != 201 && resAlumnos.statusCode() != 204) {
+	            throw new RuntimeException("Error en la petición: " + resAlumnos.statusCode());
+	        }
+	    	JSONArray alumnos = new JSONArray(resAlumnos.body());
+	    	
+	    	//Comprobramos que todos los alumnos estén en la asignatura
+	    	for (int i = 0; i < nuevasNotas.length(); i++) {
+				JSONObject nota = nuevasNotas.getJSONObject(i);
+				boolean existeAlumno = false;				
+				for (int j = 0; j < alumnos.length(); j++) {
+					JSONObject alum = alumnos.getJSONObject(j);
+					if(alum.getString("alumno").equals(nota.getString("dni"))) {
+						existeAlumno = true;
+						break;
+					}
+				}
+				if(!existeAlumno) {
+					response.sendError(HttpServletResponse.SC_FORBIDDEN, "El alumno con dni="+nota.getString("dni")+" no pertenece a ninguna de tus asignaturas.");
+			        return;
+				}
+			}
+	    	
+	    	//Modificamos las Notas de cada alumno
+	    	for (int i = 0; i < nuevasNotas.length(); i++) {
+				JSONObject nota = nuevasNotas.getJSONObject(i);
+				String dni = nota.getString("dni");
+				Double nota2 = nota.getDouble("nota");
+				HttpResponse<String> res3 = Utils.sendPutRequest(BASE_URL+"/alumnos/"+dni+"/asignaturas/"+asignatura+"?key="+key,galleta,nota2+"");
+		    }	        
+	        response.setStatus(HttpServletResponse.SC_OK);
+	        response.setContentType("text/plain");
+	        PrintWriter out = response.getWriter();
+	        out.print("OK :)");
+	        out.flush();
+	        
+	    } catch (Exception e) {
+	        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al obtener la información del profesor.\n"+e.getMessage() +"\n\n "+ e.getLocalizedMessage());
+	        
+	    }
 	}
 
 
