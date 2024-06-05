@@ -62,7 +62,7 @@ $(document).ready(function() {
                             <td>${alumnos[i].alumno}</td>
                             <td>${nota}</td>
                             <td>
-                                <input type="number" class="numero form-control" value="${alumnos[i].nota}" min="0" max="10" step="0.1"/>
+                                <input type="number" class="numero form-control" value="" min="0" max="10" step="0.1"/>
                             </td>
                         </tr>
                     `);
@@ -76,7 +76,7 @@ $(document).ready(function() {
                 }
             },
             error: function(xhr, status, error) {
-                console.error('Error al obtener los datos de los alumnos:', error);
+                alert('Error al obtener los datos de los alumnos: ' + error);
             }
         });
     } else {
@@ -85,31 +85,34 @@ $(document).ready(function() {
 
     // Controlador de eventos para el botón "Actualizar Notas"
     $('#actualizar-notas-btn').click(function() {
-        var totalNotas = 0;
-        var countNotas = 0;
-        var notaSinCalificar = false;
+        var nuevasNotas = [];
 
         $('#alumnos-table tbody tr').each(function() {
+            var dni = $(this).find('td:nth-child(2)').text();
             var notaInput = $(this).find('.numero');
             var nota = notaInput.val();
 
-            if (nota === '') {
-                $(this).find('td:nth-child(3)').text('Sin calificar');
-                notaSinCalificar = true;
-            } else {
-                nota = parseFloat(nota);
-                $(this).find('td:nth-child(3)').text(nota);
-                totalNotas += nota;
-                countNotas++;
+            if (nota !== '') {
+                nuevasNotas.push({
+                    dni: dni,
+                    nota: parseFloat(nota)
+                });
             }
         });
 
-        if (notaSinCalificar) {
-            $('#notamedia').text("No se puede calcular la media porque hay alguna nota sin calificar");
-        } else {
-            var notamedia = totalNotas / countNotas;
-            $('#notamedia').text(`La nota media de la asignatura es: ${notamedia.toFixed(2)}`);
-        }
+        $.ajax({
+            url: `/NotasOnline/api/notas?asignatura=${asignatura}`,
+            method: 'PUT',
+            contentType: 'application/json',
+            data: JSON.stringify(nuevasNotas),
+            success: function(response) {
+                alert('Notas actualizadas correctamente');
+                location.reload();
+            },
+            error: function(xhr, status, error) {
+                alert('Error al actualizar las notas: ' + error);
+            }
+        });
     });
 });
 </script>
@@ -137,7 +140,7 @@ $(document).ready(function() {
             <button id="actualizar-notas-btn" type="button" class="btn btn-primary">Actualizar Notas</button>
         </div>
     </div>
-    <p class="text-decoration-none text-body-secondary ">Para consultar los detalles sobre un alumno haga click sobre su nombre y apellidos</p>
+    <p class="text-decoration-none text-body-secondary">Para consultar los detalles sobre un alumno haga click sobre su nombre y apellidos</p>
     <p class="fw-semibold fs-5" id="notamedia">La nota media de la asignatura es:</p>
 </div>
 
