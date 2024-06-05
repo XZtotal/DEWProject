@@ -119,12 +119,22 @@
     <filter-name>LogFilter</filter-name>
     <filter-class>LogFilter</filter-class>
     <init-param>
-        <param-name>logFilePath</param-name>
-        <param-value>/home/user/tomcat/webapps/NotasOnline/registro.txt</param-value>
+      <param-name>logFilePath</param-name>
+      <param-value>/home/user/tomcat/webapps/NotasOnline/registro.txt</param-value>
     </init-param>
   </filter>
   <filter-mapping>
     <filter-name>LogFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
+  <servlet>
+    <description></description>
+    <display-name>LogTest</display-name>
+    <servlet-name>LogTest</servlet-name>
+    <servlet-class>LogTest</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>LogTest</servlet-name>
+    <url-pattern>/LogTest</url-pattern>
+  </servlet-mapping>
 </web-app>
