@@ -135,6 +135,6 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>LogTest</servlet-name>
-    <url-pattern>/LogTest</url-pattern>
+    <url-pattern>/logtest</url-pattern>
   </servlet-mapping>
 </web-app>
