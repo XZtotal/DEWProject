@@ -58,7 +58,7 @@ $(document).ready(function() {
 
                     $('#alumnos-table tbody').append(`
                         <tr>
-                            <td><a href="">${alumnos[i].nombre} ${alumnos[i].apellidos}</a></td>
+                    		<td><a href="detalleAlumno.html?dni=${alumnos[i].alumno}">${alumnos[i].nombre} ${alumnos[i].apellidos}</a></td>
                             <td>${alumnos[i].alumno}</td>
                             <td>${nota}</td>
                             <td>
