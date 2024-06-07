@@ -32,6 +32,7 @@ public class GetAlumno extends HttpServlet {
 			return;
 		}
 		
+		//Aqui se comprueba que si es un alumno, puede ver sus propios detalles. Los pasos de aqui se repiten y explican mejor mas abajo
 		if (request.isUserInRole("alumno")) { // Un alumno puede ver sus propios detalles
 			String key = (String) sesion.getAttribute("key");
 			String id = (String) sesion.getAttribute("dni");
@@ -40,13 +41,11 @@ public class GetAlumno extends HttpServlet {
 			try {
 				HttpResponse<String> res2 = Utils.sendGetRequest(BASE_URL+"/alumnos/" + id + "?key=" + key, galleta);
 				if (res2.statusCode() != 200 && res2.statusCode() != 201 && res2.statusCode() != 204) {
-					throw new RuntimeException("Error en la petición para obtencion de alumno: " + res2.statusCode());
+					response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al obtenter al alumno");
 				}
 				JSONObject alum = null;
 
 				alum = new JSONObject(res2.body());
-
-
 
 				PrintWriter out = response.getWriter();
 				response.setContentType("application/json");
@@ -58,64 +57,66 @@ public class GetAlumno extends HttpServlet {
 			return;
 		}
 		
+		// Si el que accede no es un alumno (comprobado antes) y no es un profesor, prohibido.
+		
 		if (!request.isUserInRole("profesor")) {
 			response.sendError(403);
 			return;
 		}
 		
 		
+		//Obtiene los datos de la sesion, la clave y la cookie.
+		
 		String key = (String) sesion.getAttribute("key");
 	    String id = (String) sesion.getAttribute("dni");
 	    HttpCookie galleta = (HttpCookie) sesion.getAttribute("cookie");
 	    
-	    
-	    
-	    if (key == null || key.isEmpty()) {
-	        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Sesión no iniciada");
-	        return;
-	    }
-	    if (id == null || id.isEmpty()) {
-	        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "DNI del profesor es requerido");
-	        return;
-	    }
-	    
+	    // Se obtiene el dni del alumno con un parametro en la peticion GET
 	    dniAlumno=request.getParameter("dni");
 	    
+	    // Si el dni esta vacio, no es valido
 	    if (dniAlumno == null || dniAlumno.isEmpty()) {
-	        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Alumno no valido");
+	        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "DNI vacio");
 	        return;
 	    }
-	    
 	    
 	    
 	    try {
-	    	// Obten el alumno especificado con su DNI
+	    	
+	    	// Obtiene el alumno especificado con su DNI
 	    	HttpResponse<String> res2 = Utils.sendGetRequest(BASE_URL+"/alumnos/" + dniAlumno + "?key=" + key, galleta);
 	    	if (res2.statusCode() != 200 && res2.statusCode() != 201 && res2.statusCode() != 204) {
-	    		throw new RuntimeException("Error en la petición para obtencion de alumno: " + res2.statusCode());
+	    		response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Este alumno no existe!");
 	    	}
+	    	
 	    	JSONObject alum = null;
+	    	//Intenta parsear el alumno como un objeto json.
 	    	try {
 	    		alum = new JSONObject(res2.body());
-	    		if (alum.length() <= 0) response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Este no es el alumno que estas buscando...");
+	    		if (alum.length() <= 0) response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Alumno no encontrado");
 	    	} catch (Exception e) {
-	    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Este no es el alumno que estas buscando...");
+	    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al parsear el alumno como JSON");
 	    	}
-	    	//Asignaturas del profesor
+	    	
+	    	//Obtiene las asignaturas del profesor
 	        HttpResponse<String> res3 = Utils.sendGetRequest(BASE_URL+"/profesores/" + id + "/asignaturas?key=" + key, galleta);
 	    	if (res3.statusCode() != 200 && res3.statusCode() != 201 && res3.statusCode() != 204) {
-	            throw new RuntimeException("Error en la petición (Asignaturas del profesor): " + res3.statusCode());
+	            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al obtenter las asignaturas del profesor");
 	        }
 	    	String rawAsig = res3.body();
+	    	//Intenta convertir las asignaturas en un array de objetos JSON
 	    	JSONArray asig = new JSONArray(rawAsig);
-	    	//Asignaturas del alumno
+	    	
+	    	//Obtiene las asignaturas del alumno
 	        HttpResponse<String> res4 = Utils.sendGetRequest(BASE_URL+"/alumnos/" + dniAlumno + "/asignaturas?key=" + key, galleta);
 	    	if (res4.statusCode() != 200 && res4.statusCode() != 201 && res4.statusCode() != 204) {
-	            throw new RuntimeException("Error en la petición (Asignaturas del alumno): " + res4.statusCode());
+	    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al obtenter las asignaturas del alumno");;
 	        }
 	    	String rawAsigAlum = res4.body();
 	    	JSONArray asigAlum = new JSONArray(rawAsigAlum);
 	    	boolean found = false;
+	    	
+	    	//Busca alguna de las asignaturas del alumno en las asignaturas que imparte el profesor
 	    	for(int i = 0; i < asigAlum.length(); i++) {
 	    		String asignaturaAlum = asigAlum.getJSONObject(i).getString("asignatura");
 	    		for (int e = 0; e < asig.length(); e++) {
@@ -128,9 +129,11 @@ public class GetAlumno extends HttpServlet {
 	    		if (found) break;
 	    	}
 	    	
-	    	if (!found) {
+	    	if (!found) { // Si no encuentra el alumno devuelve un error
 	    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Este alumno no esta en ninguna de tus asignaturas.");
 	    	}
+	    	
+	    	//Devuelve la respuesta
 	    	PrintWriter out = response.getWriter();
 	    	response.setContentType("application/json");
 	    	out.print(alum);
