@@ -137,4 +137,14 @@
     <servlet-name>LogTest</servlet-name>
     <url-pattern>/logtest</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>getalumno</display-name>
+    <servlet-name>getalumno</servlet-name>
+    <servlet-class>GetAlumno</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>getalumno</servlet-name>
+    <url-pattern>/api/getalumno</url-pattern>
+  </servlet-mapping>
 </web-app>
