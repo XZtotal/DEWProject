@@ -223,6 +223,8 @@ public class NotasService extends HttpServlet {
 				JSONObject nota = nuevasNotas.getJSONObject(i);
 				String dni = nota.getString("dni");
 				Double nota2 = nota.getDouble("nota");
+				if(nota2 > 10) nota2 = 10d;
+				else if(nota2 < 0) nota2 = 0d;
 				HttpResponse<String> res3 = Utils.sendPutRequest(BASE_URL+"/alumnos/"+dni+"/asignaturas/"+asignatura+"?key="+key,galleta,nota2+"");
 		    }	        
 	        response.setStatus(HttpServletResponse.SC_OK);

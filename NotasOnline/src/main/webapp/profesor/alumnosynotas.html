@@ -46,6 +46,19 @@ $(document).ready(function() {
                 var totalNotas = 0;
                 var countNotas = 0;
                 var notaSinCalificar = false;
+                
+                // Ordenar los alumnos por nombre y apellidos
+                alumnos.sort(function(a, b) {
+                    var nombreA = a.nombre.toUpperCase() + " " + a.apellidos.toUpperCase();
+                    var nombreB = b.nombre.toUpperCase() + " " + b.apellidos.toUpperCase();
+                    if (nombreA < nombreB) {
+                        return -1;
+                    }
+                    if (nombreA > nombreB) {
+                        return 1;
+                    }
+                    return 0;
+                });
 
                 for (var i = 0; i < alumnos.length; i++) {
                     var nota = alumnos[i].nota === "" ? 'Sin calificar' : parseFloat(alumnos[i].nota);
@@ -62,7 +75,7 @@ $(document).ready(function() {
                             <td>${alumnos[i].alumno}</td>
                             <td>${nota}</td>
                             <td>
-                                <input type="number" class="numero form-control" value="" min="0" max="10" step="0.1"/>
+                                <input type="number" class="numero form-control" value="" min="0" max="10" step="0.1" placeholder="${nota}"/>
                             </td>
                         </tr>
                     `);
@@ -137,11 +150,13 @@ $(document).ready(function() {
             </tbody>
         </table>
         <div class="btn-container">
-            <button id="actualizar-notas-btn" type="button" class="btn btn-primary">Actualizar Notas</button>
+            <button id="actualizar-notas-btn" type="button" class="btn btn-primary" style="margin-right: 10px">Actualizar Notas</button>
+            <a href="/NotasOnline/profesor/" class="btn btn-secondary btn-lg">Volver</a>
         </div>
     </div>
     <p class="text-decoration-none text-body-secondary">Para consultar los detalles sobre un alumno haga click sobre su nombre y apellidos</p>
     <p class="fw-semibold fs-5" id="notamedia">La nota media de la asignatura es:</p>
+    
 </div>
 
 </body>
