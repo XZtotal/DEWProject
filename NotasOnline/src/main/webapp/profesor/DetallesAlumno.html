@@ -49,7 +49,7 @@
                 return;
             }
             $.ajax({
-                url: '/api/GetAlumno?dni=' + dni,
+                url: '/NotasOnline/api/GetAlumno?dni=' + dni,
                 dataType: 'json',
                 success: function(data) {
                     $('#nombre').text(data.nombre);
