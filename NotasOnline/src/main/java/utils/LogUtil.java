@@ -9,6 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 
 public class LogUtil {
 	public static String rutaArchivo = "/home/user/NotalOnline.log";
+	
+	public static void setPath(String path) {
+        rutaArchivo = path;
+    }
+	
 	public static boolean log(String user, String ip, String sl, String method) {
 		// Intentamos abrir el archivo y escribir en él
 		 boolean res = false;

@@ -14,13 +14,16 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.jasper.tagplugins.jstl.Util;
+
+import utils.LogUtil;
+
 
 /**
  * Servlet Filter implementation class LogFilter
  */
 public class LogFilter extends HttpFilter implements Filter {
 	static FilterConfig config;
-    String rutaArchivo;
        
     /**
      * @see HttpFilter#HttpFilter()
@@ -51,22 +54,13 @@ public class LogFilter extends HttpFilter implements Filter {
         httpResponse.setHeader("Pragma", "no-cache");
         httpResponse.setDateHeader("Expires", 0);
         
-        
 
-        // Registrar la solicitud
-        LocalDateTime timestamp = LocalDateTime.now();
-        String user = (String) httpRequest.getSession().getAttribute("dni");
-        String ip = httpRequest.getRemoteAddr();
+        // Registrar el path
         String servletPath = httpRequest.getRequestURI();
-        String method = httpRequest.getMethod();
-        String form = httpRequest.getQueryString();
-
        
-        String logEntry = String.format("%s %s %s %s %s %s%n", timestamp, user, ip, servletPath, method, form != null ? form : "");
-
-        try (FileOutputStream archivo = new FileOutputStream(rutaArchivo, true); PrintStream output = new PrintStream(archivo)) {
-            output.println(logEntry);
-        }
+        
+        
+        LogUtil.log(httpRequest, servletPath);
         
         // Continuar con la cadena de filtros
         chain.doFilter(request, response);
@@ -78,9 +72,13 @@ public class LogFilter extends HttpFilter implements Filter {
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
 		// TODO Auto-generated method stub
-		config = fConfig;
-        rutaArchivo = config.getServletContext().getInitParameter("logFilePath");
-		
+		config = fConfig;        
+		LogUtil.setPath(config.getServletContext().getInitParameter("logFilePath"));
+		if (LogUtil.rutaArchivo != null) {
+            LogUtil.setPath(LogUtil.rutaArchivo);
+        } else {
+            throw new ServletException("logFilePath context parameter is missing");
+        }
 	}
 
 }
