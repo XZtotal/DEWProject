@@ -78,12 +78,15 @@ public class GetAlumno extends HttpServlet {
 	        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "DNI del profesor es requerido");
 	        return;
 	    }
+	    
+	    dniAlumno=request.getParameter("dni");
+	    
 	    if (dniAlumno == null || dniAlumno.isEmpty()) {
 	        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Alumno no valido");
 	        return;
 	    }
 	    
-	    dniAlumno=request.getParameter("dni");
+	    
 	    
 	    try {
 	    	// Obten el alumno especificado con su DNI
