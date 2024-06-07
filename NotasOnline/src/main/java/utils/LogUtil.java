@@ -13,6 +13,7 @@ public class LogUtil {
 	public static void setPath(String path) {
         rutaArchivo = path;
     }
+	
 	public static boolean log(String user, String ip, String sl, String method) {
 		// Intentamos abrir el archivo y escribir en él
 		 boolean res = false;
