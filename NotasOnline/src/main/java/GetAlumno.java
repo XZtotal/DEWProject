@@ -137,6 +137,7 @@ public class GetAlumno extends HttpServlet {
 	    	PrintWriter out = response.getWriter();
 	    	response.setContentType("application/json");
 	    	out.print(alum);
+	    	out.print(asigAlum);
 	        out.flush();
 	    	
 	    } catch (Exception e) {
