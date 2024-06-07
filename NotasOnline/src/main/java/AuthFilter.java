@@ -21,7 +21,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import utils.LogUtil;
 
 /**
  * Servlet Filter implementation class AuthFilter
@@ -52,8 +51,6 @@ public class AuthFilter extends HttpFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
         HttpServletResponse httpResponse = (HttpServletResponse) response;
         HttpSession session = httpRequest.getSession(false);
-        LogUtil.log("filtro activo");
-        LogUtil.log(httpRequest.getAttribute("key") + "  "+ (session == null? "nosesion " : session.getAttribute("key")));
         
         //para que ninguna pagina se guarde en cache
         httpResponse.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, max-age=0");
@@ -69,7 +66,6 @@ public class AuthFilter extends HttpFilter implements Filter {
             String password = userParams.getProperty(username + ".pass");
             String dni = userParams.getProperty(username + ".dni");
             HttpCookie galleta = null;
-            LogUtil.log("dni: "+dni);
             
             
             String url = "http://localhost:9090/CentroEducativo/login";
@@ -103,21 +99,17 @@ public class AuthFilter extends HttpFilter implements Filter {
                         HttpCookie httpCookie = HttpCookie.parse(cookie).get(0);
                         if (httpCookie.getName().equals("JSESSIONID")) {
                             String valorCookie = httpCookie.getValue();
-                            LogUtil.log("Valor de la cookie: " + valorCookie);                           
                             galleta = httpCookie;
                         }
                     }
                     
                 	key = resp.body();
                 } else {
-                	LogUtil.log("La solicitud no se completó correctamente. Código de estado: " + resp.statusCode());
+                	
                 }
             } catch (Exception e) {
-            	LogUtil.log("Se produjo un error al enviar la solicitud: " + e.getMessage());
             }
             
-            LogUtil.log("dni encontrado=" + dni);
-            LogUtil.log("key encontrada=" + key);
             
             session.setAttribute("dni", dni);
             session.setAttribute("key",key );
