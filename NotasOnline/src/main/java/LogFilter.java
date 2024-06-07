@@ -14,13 +14,17 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.jasper.tagplugins.jstl.Util;
+
+import utils.LogUtil;
+
 
 /**
  * Servlet Filter implementation class LogFilter
  */
 public class LogFilter extends HttpFilter implements Filter {
 	static FilterConfig config;
-    String rutaArchivo;
+    //String rutaArchivo;
        
     /**
      * @see HttpFilter#HttpFilter()
@@ -59,11 +63,13 @@ public class LogFilter extends HttpFilter implements Filter {
         String servletPath = httpRequest.getRequestURI();
         String method = httpRequest.getMethod();
        
-        String logEntry = String.format("%s %s %s %s %s %s%n", timestamp, user, ip, servletPath, method);
+        //String logEntry = String.format("%s %s %s %s %s %s%n", timestamp, user, ip, servletPath, method);
 
-        try (FileOutputStream archivo = new FileOutputStream(rutaArchivo, true); PrintStream output = new PrintStream(archivo)) {
-            output.println(logEntry);
-        }
+        //try (FileOutputStream archivo = new FileOutputStream(rutaArchivo, true); PrintStream output = new PrintStream(archivo)) {
+        //    output.println(logEntry);
+        //}
+        
+        LogUtil.log(httpRequest, servletPath);
         
         // Continuar con la cadena de filtros
         chain.doFilter(request, response);
@@ -75,9 +81,8 @@ public class LogFilter extends HttpFilter implements Filter {
 	 */
 	public void init(FilterConfig fConfig) throws ServletException {
 		// TODO Auto-generated method stub
-		config = fConfig;
-        rutaArchivo = config.getServletContext().getInitParameter("logFilePath");
-		
+		config = fConfig;        
+		LogUtil.setPath(config.getServletContext().getInitParameter("logFilePath"));
 	}
 
 }
