@@ -82,7 +82,7 @@ public class LogFilter extends HttpFilter implements Filter {
 	public void init(FilterConfig fConfig) throws ServletException {
 		// TODO Auto-generated method stub
 		config = fConfig;        
-		LogUtil.setPath(config.getServletContext().getInitParameter("logFilePath"));
+		//LogUtil.setPath(config.getServletContext().getInitParameter("logFilePath"));
 	}
 
 }
