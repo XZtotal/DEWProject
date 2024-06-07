@@ -51,7 +51,6 @@ public class LogFilter extends HttpFilter implements Filter {
         httpResponse.setHeader("Pragma", "no-cache");
         httpResponse.setDateHeader("Expires", 0);
         
-        
 
         // Registrar la solicitud
         LocalDateTime timestamp = LocalDateTime.now();
