@@ -36,65 +36,70 @@
 $(document).ready(function() {
     const asignatura = localStorage.getItem('asignatura');
 
-    if (asignatura) {
-        $.ajax({
-            url: `/NotasOnline/api/notas?asignatura=${asignatura}`,
-            dataType: 'json',
-            success: function(data) {
-                $('#asignatura-title').text(`Alumnos de ${asignatura}`);
-                var alumnos = data;
-                var totalNotas = 0;
-                var countNotas = 0;
-                var notaSinCalificar = false;
-                
-                // Ordenar los alumnos por nombre y apellidos
-                alumnos.sort(function(a, b) {
-                    var nombreA = a.nombre.toUpperCase() + " " + a.apellidos.toUpperCase();
-                    var nombreB = b.nombre.toUpperCase() + " " + b.apellidos.toUpperCase();
-                    if (nombreA < nombreB) {
-                        return -1;
-                    }
-                    if (nombreA > nombreB) {
-                        return 1;
-                    }
-                    return 0;
-                });
+    function cargarDatos() {
+        if (asignatura) {
+            $.ajax({
+                url: `/NotasOnline/api/notas?asignatura=${asignatura}`,
+                dataType: 'json',
+                success: function(data) {
+                    $('#asignatura-title').text(`Alumnos de ${asignatura}`);
+                    var alumnos = data;
+                    var totalNotas = 0;
+                    var countNotas = 0;
+                    var notaSinCalificar = false;
+                    $('#alumnos-table tbody').empty();
+                    
+                    // Ordenar los alumnos por nombre y apellidos
+                    alumnos.sort(function(a, b) {
+                        var nombreA = a.nombre.toUpperCase() + " " + a.apellidos.toUpperCase();
+                        var nombreB = b.nombre.toUpperCase() + " " + b.apellidos.toUpperCase();
+                        if (nombreA < nombreB) {
+                            return -1;
+                        }
+                        if (nombreA > nombreB) {
+                            return 1;
+                        }
+                        return 0;
+                    });
 
-                for (var i = 0; i < alumnos.length; i++) {
-                    var nota = alumnos[i].nota === "" ? 'Sin calificar' : parseFloat(alumnos[i].nota);
-                    if (alumnos[i].nota === "") {
-                        notaSinCalificar = true;
+                    for (var i = 0; i < alumnos.length; i++) {
+                        var nota = alumnos[i].nota === "" ? 'Sin calificar' : parseFloat(alumnos[i].nota);
+                        if (alumnos[i].nota === "") {
+                            notaSinCalificar = true;
+                        } else {
+                            totalNotas += nota;
+                            countNotas++;
+                        }
+
+                        $('#alumnos-table tbody').append(`
+                            <tr>
+                                <td><a href="detalleAlumno.html?dni=${alumnos[i].alumno}">${alumnos[i].nombre} ${alumnos[i].apellidos}</a></td>
+                                <td>${alumnos[i].alumno}</td>
+                                <td>${nota}</td>
+                                <td>
+                                    <input type="number" class="numero form-control" min="0" max="10" step="0.1" />
+                                </td>
+                            </tr>
+                        `);
+                    }
+
+                    if (notaSinCalificar) {
+                        $('#notamedia').text("No se puede calcular la media porque hay alguna nota sin calificar");
                     } else {
-                        totalNotas += nota;
-                        countNotas++;
+                        var notamedia = totalNotas / countNotas;
+                        $('#notamedia').text(`La nota media de la asignatura es: ${notamedia.toFixed(2)}`);
                     }
-
-                    $('#alumnos-table tbody').append(`
-                        <tr>
-                    		<td><a href="detalleAlumno.html?dni=${alumnos[i].alumno}">${alumnos[i].nombre} ${alumnos[i].apellidos}</a></td>
-                            <td>${alumnos[i].alumno}</td>
-                            <td>${nota}</td>
-                            <td>
-                                <input type="number" class="numero form-control" value="" min="0" max="10" step="0.1" placeholder="${nota}"/>
-                            </td>
-                        </tr>
-                    `);
+                },
+                error: function(xhr, status, error) {
+                    alert('Error al obtener los datos de los alumnos: ' + error);
                 }
-
-                if (notaSinCalificar) {
-                    $('#notamedia').text("No se puede calcular la media porque hay alguna nota sin calificar");
-                } else {
-                    var notamedia = totalNotas / countNotas;
-                    $('#notamedia').text(`La nota media de la asignatura es: ${notamedia.toFixed(2)}`);
-                }
-            },
-            error: function(xhr, status, error) {
-                alert('Error al obtener los datos de los alumnos: ' + error);
-            }
-        });
-    } else {
-        console.error('No se encontró la asignatura');
+            });
+        } else {
+            console.error('No se encontró la asignatura');
+        }
     }
+
+    cargarDatos();
 
     // Controlador de eventos para el botón "Actualizar Notas"
     $('#actualizar-notas-btn').click(function() {
@@ -120,7 +125,12 @@ $(document).ready(function() {
             data: JSON.stringify(nuevasNotas),
             success: function(response) {
                 alert('Notas actualizadas correctamente');
-                location.reload();
+                // Restablecer los valores de los inputs a vacío
+                $('#alumnos-table tbody tr').each(function() {
+                    $(this).find('.numero').val('');
+                });
+                // Recargar los datos para reflejar los cambios
+                cargarDatos();
             },
             error: function(xhr, status, error) {
                 alert('Error al actualizar las notas: ' + error);
