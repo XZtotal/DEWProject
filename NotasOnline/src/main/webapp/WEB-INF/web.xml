@@ -120,7 +120,7 @@
     <filter-class>LogFilter</filter-class>
     <init-param>
       <param-name>logFilePath</param-name>
-      <param-value>/home/user/tomcat/webapps/NotasOnline/registro.txt</param-value>
+      <param-value>./tomcat/webapps/NotasOnline/registro.log</param-value>
     </init-param>
   </filter>
   <filter-mapping>
