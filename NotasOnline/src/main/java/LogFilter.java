@@ -59,10 +59,9 @@ public class LogFilter extends HttpFilter implements Filter {
         String ip = httpRequest.getRemoteAddr();
         String servletPath = httpRequest.getRequestURI();
         String method = httpRequest.getMethod();
-        String form = httpRequest.getQueryString();
 
        
-        String logEntry = String.format("%s %s %s %s %s %s%n", timestamp, user, ip, servletPath, method, form != null ? form : "");
+        String logEntry = String.format("%s %s %s %s %s %s%n", timestamp, user, ip, servletPath, method);
 
         try (FileOutputStream archivo = new FileOutputStream(rutaArchivo, true); PrintStream output = new PrintStream(archivo)) {
             output.println(logEntry);
