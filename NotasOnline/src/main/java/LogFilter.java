@@ -24,7 +24,6 @@ import utils.LogUtil;
  */
 public class LogFilter extends HttpFilter implements Filter {
 	static FilterConfig config;
-    //String rutaArchivo;
        
     /**
      * @see HttpFilter#HttpFilter()
@@ -56,18 +55,10 @@ public class LogFilter extends HttpFilter implements Filter {
         httpResponse.setDateHeader("Expires", 0);
         
 
-        // Registrar la solicitud
-        LocalDateTime timestamp = LocalDateTime.now();
-        String user = (String) httpRequest.getSession().getAttribute("dni");
-        String ip = httpRequest.getRemoteAddr();
+        // Registrar el path
         String servletPath = httpRequest.getRequestURI();
-        String method = httpRequest.getMethod();
        
-        //String logEntry = String.format("%s %s %s %s %s %s%n", timestamp, user, ip, servletPath, method);
-
-        //try (FileOutputStream archivo = new FileOutputStream(rutaArchivo, true); PrintStream output = new PrintStream(archivo)) {
-        //    output.println(logEntry);
-        //}
+        
         
         LogUtil.log(httpRequest, servletPath);
         
