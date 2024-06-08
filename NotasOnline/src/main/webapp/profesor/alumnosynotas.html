@@ -77,7 +77,7 @@ $(document).ready(function() {
                                 <td>${alumnos[i].alumno}</td>
                                 <td>${nota}</td>
                                 <td>
-                                    <input type="number" class="numero form-control" min="0" max="10" step="0.1"/>
+                                    <input type="number" class="numero form-control" min="0" max="10" step="0.1" placeholder="${nota}"/>
                                 </td>
                             </tr>
                         `);
@@ -100,15 +100,7 @@ $(document).ready(function() {
     }
 
     cargarDatos();
-
-    // Guardar DNI en localStorage y redirigir a DetallesAlumno.html
-    $(document).on('click', '.detalle-alumno', function(e) {
-        e.preventDefault();
-        var dni = $(this).data('dni');
-        localStorage.setItem('dni', dni);
-        window.location.href = 'DetallesAlumno.html';
-    });
-
+    
     // Controlador de eventos para el botón "Actualizar Notas"
     $('#actualizar-notas-btn').click(function() {
         var nuevasNotas = [];
