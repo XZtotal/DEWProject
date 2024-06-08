@@ -25,6 +25,7 @@
       <web-resource-name>ProtegidoAlumnos</web-resource-name>
       <url-pattern>/api/*</url-pattern>
       <url-pattern>/alumno/*</url-pattern>
+      <url-pattern>/common/*</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <role-name>alumno</role-name>
@@ -35,11 +36,13 @@
       <web-resource-name>ProtegidoProfesores</web-resource-name>
       <url-pattern>/api/*</url-pattern>
       <url-pattern>/profesor/*</url-pattern>
+      <url-pattern>/common/*</url-pattern>
     </web-resource-collection>
     <auth-constraint>
       <role-name>profesor</role-name>
     </auth-constraint>
   </security-constraint>
+  
   <security-role>
     <role-name>alumno</role-name>
   </security-role>

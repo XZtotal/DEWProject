@@ -132,12 +132,12 @@ public class GetAlumno extends HttpServlet {
 	    	if (!found) { // Si no encuentra el alumno devuelve un error
 	    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Este alumno no esta en ninguna de tus asignaturas.");
 	    	}
+	    	alum.put("asignaturas", asigAlum);
 	    	
 	    	//Devuelve la respuesta
 	    	PrintWriter out = response.getWriter();
 	    	response.setContentType("application/json");
-	    	out.print(alum);
-	    	out.print(asigAlum);
+	    	out.print(alum);	    	
 	        out.flush();
 	    	
 	    } catch (Exception e) {
