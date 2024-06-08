@@ -29,31 +29,37 @@
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     <script>
-            $.ajax({
-                url: '/NotasOnline/api/GetAlumno?dni= ' + dni,
-                dataType: 'json',
-                success: function(data) {
-                    $('#nombre').text(data.nombre);
-                    $('#apellidos').text(data.apellidos);
-                    $('#dni').text(data.dni);
- 					$('#foto').attr('src', '/NotasOnline/imgs/asignadas/' + dni + '.png');
-                    
-                    // Construir la lista de asignaturas
-                    var asignaturasHtml = '<strong>Asignaturas:</strong><ul>';
-                    for (var i = 0; i < data.notas.length; i++) {
-                        asignaturasHtml += '<li>' + data.notas[i].asignatura + ' - ' + data.notas[i].nombre + '</li>';
+        $(document).ready(function() {
+            const dni = localStorage.getItem('dni');
+            if (dni) {
+                $.ajax({
+                    url: `/NotasOnline/api/getalumno?dni=${dni}`,
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#nombre').text(data.nombre);
+                        $('#apellidos').text(data.apellidos);
+                        $('#dni').text(data.dni);
+                        $('#foto').attr('src', '/NotasOnline/imgs/asignadas/' + data.dni + '.png');
+                        
+                        // Construir la lista de asignaturas
+                        var asignaturasHtml = '<strong>Asignaturas:</strong><ul>';
+                        for (var i = 0; i < data.notas.length; i++) {
+                            asignaturasHtml += '<li>' + data.notas[i].asignatura + ' - ' + data.notas[i].nombre + '</li>';
+                        }
+                        asignaturasHtml += '</ul>';
+                        $('#asignaturas').html(asignaturasHtml);
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error al obtener los datos del alumno:', error);
                     }
-                    asignaturasHtml += '</ul>';
-                    $('#asignaturas').html(asignaturasHtml);
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error al obtener los datos del alumno:', error);
-                }
-            });
-
+                });
+            } else {
+                console.error('No se encontró el DNI del alumno en localStorage');
+            }
+        });
     </script>
 </head>
 <body>
