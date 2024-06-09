@@ -35,6 +35,7 @@ $(document).ready(function() {
 	 $('#usuario').text(data.nombre);
 	 $('#apellidos').text(data.apellidos);
 	 $('#dni').text(data.dni);
+     //La siguiente linea de codigo inserta la foto correspondiente al usuario, para hello coge su DNI y busca una foto con su nombre en la ruta de debajo, luego lo inserta en la imagen con id=foto
 	 $('#foto').attr('src', '/nol2324/imgs/asignadas/'+data.dni+'.png');	
 	 for (var i = 0; i < data.asignaturas.length; i++) {
          var tabId = 'asignatura' + (i + 1);
@@ -87,6 +88,7 @@ $(document).ready(function() {
 <h1 class="p-3 mb-2 bg-info-subtle text-info-emphasis">Notas Online</h1></br>
 
 <div class="container tamaño">
+    <!--La siguiente imagen no tiene ruta ya que la coje a través de Ajax como está explicado arriba -->
     <img id="foto"  class="img-thumbnail rounded mx-auto d-block" alt="Foto de perfil" /></br>
     <div class="fs-2 text-center">
         <p class="fw-bold">Bienvenid@ <span id="usuario"> </span> <span id="apellidos"></span></p>

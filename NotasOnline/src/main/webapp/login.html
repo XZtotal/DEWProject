@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
+<!--Los siguientes meta, link y scripts son necesarios para el correcto funcionamiento de Bootstrap en la pagina -->
 <meta http-equiv="X-UA-Compatible" content="IE-edge">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
@@ -10,10 +11,14 @@
 <title>Inicio sesión</title>
 </head>
 <body>
+<!--El siguiente div se llama container por facilidades con Bootstrap -->
 <div class="container">
+<!--El siguiente div indica que es una fila donde el color de fondo va a ser azul cian y el texto va a estar situado en el centro -->
 <div class="row bg-primary-subtle text-center">
 	<h1>Inicio de sesión</h1>
 </div>
+<!--En el siguiente text el texto se va a colocar en el centro y en el form se realiza una llamada al servlet de inicio de sesion,donde a traves de las credenciales pasadas se iniciara sesion -->
+<!--mt-3 significa margin top, esto es para que halla un margen entre los diferentes campos de texto -->
 <div class="text-center">
 	<form action="j_security_check" method="post">
 		<div class="mt-3">Usuario: <input type="text" name="j_username"> </div>
