@@ -1,31 +1,18 @@
-# Peticiones a CentroEducativo
-
+Peticiones a CentroEducativo
 AYUDA A LOS DEL BACKEND PARA NO USAR TODO EL RATO EL POSMAN (Porque ha veces el swagger no muestra bien lo que devuelve y así no uso mas el postman)
-
 Swagger
-
-[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/swagger-ui.html](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/swagger-ui.html)
-
-[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/login](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/login)
-
+http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/swagger-ui.html
+http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/login
 envio
-
-```json
 {
     "dni":"10293756L",
     "password":"123456"
 }
-```
 
 Respuesta
-
-```java
 2kfem284phs5iofrpe4pac84r6
-```
 
-[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/alumnos/23456387R/asignaturas?key=2kfem284phs5iofrpe4pac84r6](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/alumnos/23456387R/asignaturas?key=2kfem284phs5iofrpe4pac84r6)
-
-```json
+http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/alumnos/23456387R/asignaturas?key=2kfem284phs5iofrpe4pac84r6
 [
     {
         "asignatura": "DCU",
@@ -36,11 +23,8 @@ Respuesta
         "nota": ""
     }
 ]
-```
 
-[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/asignaturas/DEW/alumnos?key=2kfem284phs5iofrpe4pac84r6](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/asignaturas/DEW/alumnos?key=2kfem284phs5iofrpe4pac84r6)
-
-```json
+http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/asignaturas/DEW/alumnos?key=2kfem284phs5iofrpe4pac84r6
 [
     {
         "alumno": "12345678W",
@@ -55,11 +39,8 @@ Respuesta
         "nota": "9.0"
     }
 ]
-```
 
-[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/alumnos?key=2kfem284phs5iofrpe4pac84r6](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/alumnos?key=2kfem284phs5iofrpe4pac84r6)
-
-```json
+http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/alumnos?key=2kfem284phs5iofrpe4pac84r6
 [
     {
         "dni": "12345678W",
@@ -87,11 +68,8 @@ Respuesta
         "apellidos": "Alonso Pérez"
     }
 ]
-```
 
-[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/alumnosyasignaturas?key=2kfem284phs5iofrpe4pac84r6](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/alumnosyasignaturas?key=2kfem284phs5iofrpe4pac84r6)
-
-```json
+http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/alumnosyasignaturas?key=2kfem284phs5iofrpe4pac84r6
 [
     {
         "apellidos": "Garcia Sanchez",
@@ -142,23 +120,16 @@ Respuesta
         "dni": "37264096W"
     }
 ]
-```
 
-## PROFES
-
-[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/profesores/10293756L?key=2kfem284phs5iofrpe4pac84r6](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/profesores/10293756L?key=2kfem284phs5iofrpe4pac84r6)
-
-```json
+PROFES
+http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/profesores/10293756L?key=2kfem284phs5iofrpe4pac84r6
 {
     "dni": "10293756L",
     "nombre": "Pedro",
     "apellidos": "Valderas"
 }
-```
 
-[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/profesores/65748923M/asignaturas?key=2kfem284phs5iofrpe4pac84r6](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/profesores/65748923M/asignaturas?key=2kfem284phs5iofrpe4pac84r6)
-
-```json
+http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/profesores/65748923M/asignaturas?key=2kfem284phs5iofrpe4pac84r6
 [
     {
         "acronimo": "IAP",
@@ -168,4 +139,3 @@ Respuesta
         "creditos": 4.5
     }
 ]
-```
