@@ -46,6 +46,14 @@ public class GetAlumno extends HttpServlet {
 				JSONObject alum = null;
 
 				alum = new JSONObject(res2.body());
+				
+				HttpResponse<String> res4 = Utils.sendGetRequest(BASE_URL+"/alumnos/" + id + "/asignaturas?key=" + key, galleta);
+		    	if (res4.statusCode() != 200 && res4.statusCode() != 201 && res4.statusCode() != 204) {
+		    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al obtenter las asignaturas del alumno");;
+		        }
+		    	String rawAsigAlum = res4.body();
+		    	JSONArray asigAlum = new JSONArray(rawAsigAlum);
+		    	alum.put("asignaturas", asigAlum);
 
 				PrintWriter out = response.getWriter();
 				response.setContentType("application/json");
