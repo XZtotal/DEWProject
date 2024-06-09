@@ -42,6 +42,7 @@
                         $('#nombre').text(data.nombre);
                         $('#apellidos').text(data.apellidos);
                         $('#dni').text(data.dni);
+                        //La siguiente linea de codigo inserta la foto correspondiente al usuario, para hello coge su DNI y busca una foto con su nombre en la ruta de debajo, luego lo inserta en la imagen con id=foto
                         $('#foto').attr('src', '/NotasOnline/imgs/asignadas/' + data.dni + '.png');
                         
                         // Construir la lista de asignaturas
@@ -71,6 +72,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
+                        <!--La siguiente imagen no tiene ruta ya que la coje a través de Ajax como está explicado arriba -->
                         <img src="" id="foto" alt="Foto del alumno" class="photo img-fluid">
                     </div>
                     <div class="col-md-8">

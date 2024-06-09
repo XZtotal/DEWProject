@@ -66,6 +66,7 @@
                 $('#apellidos').text(data.apellidos);
                 $('#dni').text(data.dni);
                 $('#curso').text('2023/24');
+                //La siguiente linea de codigo inserta la foto correspondiente al usuario, para hello coge su DNI y busca una foto con su nombre en la ruta de debajo, luego lo inserta en la imagen con id=foto
                 $('#foto').attr('src', '/NotasOnline/imgs/asignadas/'+data.dni+'.png');
                 
                 var fecha = new Date();
@@ -101,6 +102,7 @@
             <h2 class="p-3 mb-2 bg-success-subtle text-success-emphasis">Certificado sin validez académica</h2>
         </div>
         <p>DEW - Centro Educativo certifica que D/Dª <span id="nombre"></span> <span id="apellidos"></span>, con DNI <span id="dni"></span>, matriculado/a en el curso <span id="curso"></span>, ha obtenido las calificaciones que se muestran en la siguiente tabla.</p>
+        <!--La siguiente imagen no tiene ruta ya que la coje a través de Ajax como está explicado arriba -->
         <img src="" id="foto" class="photo">
         <br>
         <br>
