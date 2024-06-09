@@ -41,11 +41,17 @@ public class AlumnService extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-			HttpSession sesion = request.getSession(false);
-			if(sesion == null) return;
+		
+		    // Obtener la sesión actual del usuario
+		    HttpSession sesion = request.getSession(false);
+		    if(sesion == null) return;
+		        
+		    // Obtener atributos de la sesión
 		    String key = (String) sesion.getAttribute("key");
 		    String id = (String) sesion.getAttribute("dni");
 		    HttpCookie galleta = (HttpCookie) sesion.getAttribute("cookie");
+
+		    // Validar que el usuario haya iniciado sesión y tenga un DNI
 		    if (key == null || key.isEmpty()) {
 		        response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Sesión no iniciada");
 		        return;
@@ -57,6 +63,7 @@ public class AlumnService extends HttpServlet {
 		    String alumnoInfo = null;
 		    int status = 0;
 		    try {
+			// Realizar una petición GET para obtener la información del alumno
 		    	HttpResponse<String> rrr = Utils.sendGetRequest(ALUMNO_URL+"/" + id+"?key="+key,galleta);
 		    	if (rrr.statusCode() != 200 && rrr.statusCode() != 201 && rrr.statusCode() != 204) {
 		            throw new RuntimeException("Error en la petición: " + rrr.statusCode());
@@ -65,24 +72,28 @@ public class AlumnService extends HttpServlet {
 			    status = rrr.statusCode();
 		        alumnoInfo = rrr.body();
 		        JSONObject json = new JSONObject(alumnoInfo);
-		        
+			    
+		        // Realizar una segunda petición GET para obtener las asignaturas del alumno
 		        HttpResponse<String> rrr2 = Utils.sendGetRequest(ALUMNO_URL+ "/" + id+"/asignaturas?key="+key,galleta);
 		    	if (rrr2.statusCode() != 200 && rrr2.statusCode() != 201 && rrr2.statusCode() != 204) {
 		            throw new RuntimeException("Error en la petición 2: " + rrr2.statusCode());
 		        }
 		    	JSONArray notas = new JSONArray(rrr2.body());		    	
-		    	
+			    
+			// Realizar una tercera petición GET para obtener información de todas las asignaturas
 		    	HttpResponse<String> rrr3 = Utils.sendGetRequest(BASE_URL+ "/asignaturas?key="+key,galleta);
 		    	if (rrr3.statusCode() != 200 && rrr3.statusCode() != 201 && rrr3.statusCode() != 204) {
 		            throw new RuntimeException("Error en la petición 2: " + rrr3.statusCode());
 		        }
 		    	JSONArray asignaturas = new JSONArray(rrr3.body());	
-		    	
+
+			// Combinar la información de las notas con la información de las asignaturas    
 		    	for (int i = 0; i<notas.length();i++) {
 		    		for(int j= 0; j<asignaturas.length();j++) {
 		    			JSONObject nota = notas.getJSONObject(i);
 		    			JSONObject asig = asignaturas.getJSONObject(j);
-		    			
+					
+		    			// Si la asignatura de la nota coincide con la asignatura de la lista, añadir detalles adicionales
 		    			if(nota.getString("asignatura").equalsIgnoreCase(asig.getString("acronimo"))) {
 		    				nota.put("nombre", asig.getString("nombre"));
 		    				nota.put("curso", asig.getInt("curso"));
@@ -93,15 +104,16 @@ public class AlumnService extends HttpServlet {
 		    			
 		    		}
 		    	}
-		    	
+		    	// Añadir las notas detalladas al objeto JSON del alumno
 		    	json.put("notas", notas);
 		    	
-		        
+		        // Enviar la respuesta como JSON
 		        response.setContentType("application/json");
 		        PrintWriter out = response.getWriter();
 		        out.print(JSONObject.valueToString(json));
 		        out.flush();
 		    } catch (Exception e) {
+			// En caso de error, enviar un mensaje de error con detalles adicionales
 		        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Error al obtener la información del alumno." + " status:"+ status+",  otra info: " + alumnoInfo   + "\n"+e.getMessage() +"\n\n "+ e.getLocalizedMessage());
 		        
 		    }
