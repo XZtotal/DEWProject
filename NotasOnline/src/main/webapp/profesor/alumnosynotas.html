@@ -39,7 +39,7 @@ $(document).ready(function() {
     function cargarDatos() {
         if (asignatura) {
             $.ajax({
-                url: `/NotasOnline/api/notas?asignatura=${asignatura}`,
+                url: `/nol2324/api/notas?asignatura=${asignatura}`,
                 dataType: 'json',
                 success: function(data) {
                     $('#asignatura-title').text(`Alumnos de ${asignatura}`);
@@ -73,7 +73,7 @@ $(document).ready(function() {
 
                         $('#alumnos-table tbody').append(`
                             <tr>
-                                <td><a href="/NotasOnline/common/DetallesAlumno.html?dni=${alumnos[i].alumno}">${alumnos[i].nombre} ${alumnos[i].apellidos}</a></td>
+                                <td><a href="/nol2324/common/DetallesAlumno.html?dni=${alumnos[i].alumno}">${alumnos[i].nombre} ${alumnos[i].apellidos}</a></td>
                                 <td>${alumnos[i].alumno}</td>
                                 <td>${nota}</td>
                                 <td>
@@ -119,7 +119,7 @@ $(document).ready(function() {
         });
 
         $.ajax({
-            url: `/NotasOnline/api/notas?asignatura=${asignatura}`,
+            url: `/nol2324/api/notas?asignatura=${asignatura}`,
             method: 'PUT',
             contentType: 'application/json',
             data: JSON.stringify(nuevasNotas),
@@ -161,7 +161,7 @@ $(document).ready(function() {
         </table>
         <div class="btn-container">
             <button id="actualizar-notas-btn" type="button" class="btn btn-primary" style="margin-right: 10px">Actualizar Notas</button>
-            <a href="/NotasOnline/profesor/" class="btn btn-secondary btn-lg">Volver</a>
+            <a href="/nol2324/profesor/" class="btn btn-secondary btn-lg">Volver</a>
         </div>
     </div>
     <p class="text-decoration-none text-body-secondary">Para consultar los detalles sobre un alumno haga click sobre su nombre y apellidos</p>

@@ -30,13 +30,13 @@
 <script>
 $(document).ready(function() {
 	 $.ajax({
-	 url: '/NotasOnline/api/alumno',
+	 url: '/nol2324/api/alumno',
 	 dataType: 'json',
 	 success: (data) => {
 	 $('#usuario').text(data.nombre);
 	 $('#apellidos').text(data.apellidos);
 	 $('#dni').text(data.dni); 
-	 $('#foto').attr('src', '/NotasOnline/imgs/asignadas/'+data.dni+'.png');
+	 $('#foto').attr('src', '/nol2324/imgs/asignadas/'+data.dni+'.png');
 	 for (var i = 0; i < data.notas.length; i++) {
          var tabId = 'asignatura' + (i + 1);
          var activeClass = i === 0 ? 'active' : '';
@@ -115,8 +115,8 @@ $(document).ready(function() {
 </div>
 <div class="d-flex justify-content-end mt-3">
         <a href="Certificado.html" class="btn btn-secondary btn-lg me-2">Certificado alumno</a>
-        <a href="/NotasOnline/common/DetallesAlumno.html?dni=0" class="btn btn-secondary btn-lg me-2">Detalles alumno</a>
-        <a href="/NotasOnline/logout" class="btn btn-secondary btn-lg">Cerrar sesión</a>
+        <a href="/nol2324/common/DetallesAlumno.html?dni=0" class="btn btn-secondary btn-lg me-2">Detalles alumno</a>
+        <a href="/nol2324/logout" class="btn btn-secondary btn-lg">Cerrar sesión</a>
         </div>
 </div>
 </div>
