@@ -1,0 +1,171 @@
+# Peticiones a CentroEducativo
+
+AYUDA A LOS DEL BACKEND PARA NO USAR TODO EL RATO EL POSMAN (Porque ha veces el swagger no muestra bien lo que devuelve y así no uso mas el postman)
+
+Swagger
+
+[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/swagger-ui.html](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/swagger-ui.html)
+
+[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/login](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/login)
+
+envio
+
+```json
+{
+    "dni":"10293756L",
+    "password":"123456"
+}
+```
+
+Respuesta
+
+```java
+2kfem284phs5iofrpe4pac84r6
+```
+
+[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/alumnos/23456387R/asignaturas?key=2kfem284phs5iofrpe4pac84r6](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/alumnos/23456387R/asignaturas?key=2kfem284phs5iofrpe4pac84r6)
+
+```json
+[
+    {
+        "asignatura": "DCU",
+        "nota": ""
+    },
+    {
+        "asignatura": "DEW",
+        "nota": ""
+    }
+]
+```
+
+[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/asignaturas/DEW/alumnos?key=2kfem284phs5iofrpe4pac84r6](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/asignaturas/DEW/alumnos?key=2kfem284phs5iofrpe4pac84r6)
+
+```json
+[
+    {
+        "alumno": "12345678W",
+        "nota": ""
+    },
+    {
+        "alumno": "23456387R",
+        "nota": ""
+    },
+    {
+        "alumno": "93847525G",
+        "nota": "9.0"
+    }
+]
+```
+
+[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/alumnos?key=2kfem284phs5iofrpe4pac84r6](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/alumnos?key=2kfem284phs5iofrpe4pac84r6)
+
+```json
+[
+    {
+        "dni": "12345678W",
+        "nombre": "Pepe",
+        "apellidos": "Garcia Sanchez"
+    },
+    {
+        "dni": "23456387R",
+        "nombre": "Maria",
+        "apellidos": "Fernandez Gómez"
+    },
+    {
+        "dni": "34567891F",
+        "nombre": "Miguel",
+        "apellidos": "Hernandez Llopis"
+    },
+    {
+        "dni": "93847525G",
+        "nombre": "Laura",
+        "apellidos": "Benitez Torres"
+    },
+    {
+        "dni": "37264096W",
+        "nombre": "Minerva",
+        "apellidos": "Alonso Pérez"
+    }
+]
+```
+
+[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/alumnosyasignaturas?key=2kfem284phs5iofrpe4pac84r6](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/alumnosyasignaturas?key=2kfem284phs5iofrpe4pac84r6)
+
+```json
+[
+    {
+        "apellidos": "Garcia Sanchez",
+        "password": "123456",
+        "nombre": "Pepe",
+        "asignaturas": [
+            "DCU",
+            "DEW",
+            "IAP"
+        ],
+        "dni": "12345678W"
+    },
+    {
+        "apellidos": "Fernandez Gómez",
+        "password": "123456",
+        "nombre": "Maria",
+        "asignaturas": [
+            "DCU",
+            "DEW"
+        ],
+        "dni": "23456387R"
+    },
+    {
+        "apellidos": "Hernandez Llopis",
+        "password": "123456",
+        "nombre": "Miguel",
+        "asignaturas": [
+            "IAP",
+            "DCU"
+        ],
+        "dni": "34567891F"
+    },
+    {
+        "apellidos": "Benitez Torres",
+        "password": "123456",
+        "nombre": "Laura",
+        "asignaturas": [
+            "IAP",
+            "DEW"
+        ],
+        "dni": "93847525G"
+    },
+    {
+        "apellidos": "Alonso Pérez",
+        "password": "123456",
+        "nombre": "Minerva",
+        "asignaturas": [],
+        "dni": "37264096W"
+    }
+]
+```
+
+## PROFES
+
+[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/profesores/10293756L?key=2kfem284phs5iofrpe4pac84r6](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/profesores/10293756L?key=2kfem284phs5iofrpe4pac84r6)
+
+```json
+{
+    "dni": "10293756L",
+    "nombre": "Pedro",
+    "apellidos": "Valderas"
+}
+```
+
+[http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/profesores/65748923M/asignaturas?key=2kfem284phs5iofrpe4pac84r6](http://dew-vrlornue-2324.dsicv.upv.es:9090/CentroEducativo/profesores/65748923M/asignaturas?key=2kfem284phs5iofrpe4pac84r6)
+
+```json
+[
+    {
+        "acronimo": "IAP",
+        "nombre": "Integración de Aplicaciones",
+        "curso": 4,
+        "cuatrimestre": "A",
+        "creditos": 4.5
+    }
+]
+```
