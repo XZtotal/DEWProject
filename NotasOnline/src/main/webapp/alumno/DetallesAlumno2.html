@@ -47,7 +47,7 @@
                     // Construir la lista de asignaturas
                     var asignaturasHtml = '<strong>Asignaturas:</strong><ul>';
                     for (var i = 0; i < data.notas.length; i++) {
-                        asignaturasHtml += '<li>' + data.notas[i].asignatura + ' - ' + data.notas[i].nombre + '</li>';
+                        asignaturasHtml += '<li>' + data.notas[i].asignatura +'</li>';
                     }
                     asignaturasHtml += '</ul>';
                     $('#asignaturas').html(asignaturasHtml);

@@ -50,7 +50,7 @@
                         // Construir la lista de asignaturas
                         var asignaturasHtml = '<strong>Asignaturas:</strong><ul>';
                         for (var i = 0; i < data.asignaturas.length; i++) {
-                            asignaturasHtml += '<li>' + data.asignaturas[i].asignatura + ' - ' + data.asignaturas[i].nombre + '</li>';
+                            asignaturasHtml += '<li>' + data.asignaturas[i].asignatura + '</li>';
                         }
                         asignaturasHtml += '</ul>';
                         $('#asignaturas').html(asignaturasHtml);
